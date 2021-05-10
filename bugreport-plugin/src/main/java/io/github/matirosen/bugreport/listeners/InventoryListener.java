@@ -136,6 +136,8 @@ public class InventoryListener implements Listener {
 
             inventory.setItem(3, solvedItem);
 
+            bugReportManager.saveReport(bugReport);
+
         } else if (slot == 0){
             player.closeInventory();
             BookReport bookReport = bookReportFactory.create(bugReport);
@@ -153,6 +155,7 @@ public class InventoryListener implements Listener {
 
         if (slot >= 0 && slot <= 4){
             bugReport.setPriority(slot+1);
+            bugReportManager.saveReport(bugReport);
         }
         player.openInventory(bugReportSecondMenu.build(bugReport));
     }
@@ -166,9 +169,10 @@ public class InventoryListener implements Listener {
             return;
         } if (slot == 49){
             player.openInventory(bugReportSecondMenu.build(bugReport));
+            return;
         }
 
         bugReport.addLabel(currentItem.getItemMeta().getDisplayName());
-
+        bugReportManager.saveReport(bugReport);
     }
 }

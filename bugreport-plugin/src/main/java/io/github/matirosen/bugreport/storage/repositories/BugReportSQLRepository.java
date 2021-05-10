@@ -29,7 +29,7 @@ public class BugReportSQLRepository implements ObjectRepository<BugReport, Integ
     private final String SELECT_REPORT = "SELECT * FROM `report_table` WHERE id=?;";
     private final String INSERT_REPORT = "INSERT INTO `report_table` " +
             "(id, player_name, report_message, time, priority, solved) VALUES (?, ?, ?, ?, ?, ?);";
-    private final String UPDATE_REPORT = "UPDATE `report_table` SET player_name=?, report_message=?, time=?, priority=?" +
+    private final String UPDATE_REPORT = "UPDATE `report_table` SET player_name=?, report_message=?, time=?, priority=?, " +
             "solved=? WHERE id=?;";
 
 

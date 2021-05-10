@@ -26,7 +26,7 @@ public class BugReportManager {
         if (bugReportList.size() >= 500){
             bugReportList.remove(499);
         }
-        bugReportRepository.save(bugReport);
+        saveReport(bugReport);
         ConfigHandler.totalReports++;
 
         File file = new File(fileManager.getReportsFolder(), "info.yml");
@@ -42,6 +42,10 @@ public class BugReportManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void saveReport(BugReport bugReport){
+        bugReportRepository.save(bugReport);
     }
 
     public List<BugReport> getBugReportList(){
