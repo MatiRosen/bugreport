@@ -1,13 +1,13 @@
 # Storage Section
 # Here you can specify where to save the surveys results
-# There are three options: MYSQL, MongoDB or flatFile
+# There are three options: MYSQL, MongoDB, h2 or flatFile
 storage:
   type: flatFile
   username: test
   password: test
-  host: localhost
-  port: 7777
-  database: Bugs-reports
+  ip: localhost
+  port: 3306
+  database: reports
 
 #Time (inactive seconds) to wait before abandoning the player report conversation.
 time-out: 360
@@ -15,6 +15,9 @@ time-out: 360
 labels:
   - lag
   - redstone
+  - end
+  - nether
+  - overworld
 
 main-inventory:
   title: "&7&lReport page: %actual-page%"

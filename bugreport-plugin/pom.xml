@@ -91,6 +91,11 @@
             <artifactId>bugreport-nms-v1_13_R2</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>4.0.3</version>
+        </dependency>
     </dependencies>
 
 </project>

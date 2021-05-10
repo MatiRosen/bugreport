@@ -1,6 +1,6 @@
 name: bug-report
 version: 0.0.1
-main: io.github.matirosen.ReportPlugin
+main: io.github.matirosen.bugreport.ReportPlugin
 
 commands:
   bug:
