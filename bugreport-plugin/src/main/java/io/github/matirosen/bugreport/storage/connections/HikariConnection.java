@@ -68,8 +68,9 @@ public class HikariConnection implements DataConnection<Connection> {
         dataSource.setMaximumPoolSize(10);
 
         try {
-            dataSource.getConnection().createStatement().executeUpdate(REPORT_TABLE);
-            dataSource.getConnection().createStatement().executeUpdate(LABEL_TABLE);
+            Connection connection = dataSource.getConnection();
+            connection.createStatement().executeUpdate(REPORT_TABLE);
+            //connection.createStatement().executeUpdate(LABEL_TABLE);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }

@@ -15,8 +15,7 @@ public class H2DataModule implements Module {
 
     @Override
     public void configure(Binder binder) {
-        binder.bind(new TypeReference<DataConnection<Connection>>(){})
-                .to(H2Connection.class).singleton();
+        binder.bind(new TypeReference<DataConnection<Connection>>(){}).to(H2Connection.class).singleton();
         binder.bind(new TypeReference<ObjectRepository<BugReport, Integer>>(){})
                 .to(BugReportSQLRepository.class).singleton();
     }

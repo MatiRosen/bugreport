@@ -11,7 +11,7 @@ public class BugReport {
     private final List<String> labels = new ArrayList<>();
     private int priority = 0;
     private boolean solved;
-    private final boolean exist;
+    private boolean exist;
 
     public BugReport(String playerName, String reportMessage, long currentTimeMillis, boolean exist){
         this.exist = exist;
@@ -34,6 +34,10 @@ public class BugReport {
 
     public void setSolved(boolean solved){
         this.solved = solved;
+    }
+
+    public void setExist(boolean exists){
+        this.exist = exists;
     }
 
     public int getId(){

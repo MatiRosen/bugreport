@@ -135,7 +135,7 @@ public class InventoryListener implements Listener {
             inventory.setItem(8, bugId);
 
             inventory.setItem(3, solvedItem);
-
+            bugReport.setExist(true);
             bugReportManager.saveReport(bugReport);
 
         } else if (slot == 0){
@@ -173,6 +173,7 @@ public class InventoryListener implements Listener {
         }
 
         bugReport.addLabel(currentItem.getItemMeta().getDisplayName());
+        bugReport.setExist(true);
         bugReportManager.saveReport(bugReport);
     }
 }
