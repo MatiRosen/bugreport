@@ -28,7 +28,6 @@ public class FileManager {
         configurationMap.put("config", loadFileConfiguration("config.yml", plugin.getDataFolder()));
         configurationMap.put("language", loadFileConfiguration("language.yml", plugin.getDataFolder()));
         configurationMap.put("info", loadFileConfiguration("info.yml", reportsFolder));
-
     }
 
     public FileConfiguration get(String name){

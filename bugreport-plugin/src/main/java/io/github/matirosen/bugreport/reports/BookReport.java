@@ -60,7 +60,7 @@ public class BookReport {
                 .replace("%report_id%", id) + "\n\n" + messageHandler.getMessage("first-page-player")
                 .replace("%player_name%", playerName) + "\n" + messageHandler.getMessage("first-page-date")
                 .replace("%report_date%", date) + "\n" + messageHandler.getMessage("first-page-priority")
-                .replace("%report_priority", priority) + "\n" + messageHandler.getMessage("first-page-bug-status")
+                .replace("%report_priority%", priority) + "\n" + messageHandler.getMessage("first-page-bug-status")
                 .replace("%bug_solved%", solved));
 
         String page2 = messageHandler.getMessage("second-page-report-message")

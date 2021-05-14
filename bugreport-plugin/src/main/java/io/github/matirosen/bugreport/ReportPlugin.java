@@ -5,8 +5,6 @@ import io.github.matirosen.bugreport.managers.BugReportManager;
 import io.github.matirosen.bugreport.managers.FileManager;
 import io.github.matirosen.bugreport.modules.CoreModule;
 import io.github.matirosen.bugreport.storage.DataConnection;
-import io.github.matirosen.bugreport.storage.repositories.BugReportSQLRepository;
-import io.github.matirosen.bugreport.storage.repositories.ObjectRepository;
 import io.github.matirosen.bugreport.utils.ConfigHandler;
 import io.github.matirosen.bugreport.utils.MessageHandler;
 import io.github.matirosen.bugreport.commands.MainCommand;
@@ -44,9 +42,8 @@ public class ReportPlugin extends JavaPlugin {
             e.printStackTrace();
         }
 
-        connection.connect();
-
         fileManager.loadAllFileConfigurations();
+        connection.connect();
 
         configHandler = new ConfigHandler(fileManager);
         configHandler.setConfigValues();

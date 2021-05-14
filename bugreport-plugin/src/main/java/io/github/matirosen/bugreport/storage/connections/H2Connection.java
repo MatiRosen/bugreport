@@ -1,11 +1,12 @@
 package io.github.matirosen.bugreport.storage.connections;
 
+import io.github.matirosen.bugreport.managers.FileManager;
 import io.github.matirosen.bugreport.storage.DataConnection;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.h2.jdbcx.JdbcConnectionPool;
 
 import javax.inject.Inject;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -13,6 +14,8 @@ public class H2Connection implements DataConnection<Connection> {
 
     @Inject
     private JavaPlugin plugin;
+    @Inject
+    private FileManager fileManager;
 
     private JdbcConnectionPool connectionPool;
 
@@ -36,12 +39,8 @@ public class H2Connection implements DataConnection<Connection> {
 
     @Override
     public void connect(){
-        ConfigurationSection config = plugin.getConfig();
-        String user = config.getString("storage.username");
-        String password =  config.getString("storage.password");
-        String database = config.getString("storage.database");
-
-        connectionPool = JdbcConnectionPool.create("jdbc:h2:~/" + database, user, password);
+        File file = new File(fileManager.getReportsFolder(), "h2-file.db");
+        connectionPool = JdbcConnectionPool.create("jdbc:h2:file:" + file.getAbsolutePath(), "", "");
 
         try {
             Connection connection = connectionPool.getConnection();
@@ -49,7 +48,6 @@ public class H2Connection implements DataConnection<Connection> {
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
-
     }
 
     @Override
