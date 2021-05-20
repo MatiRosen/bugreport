@@ -25,6 +25,7 @@ public class ConfigHandler {
 
         configMap.put("inactiveSeconds", configSection.getInt("time-out"));
         configMap.put("labels", configSection.getStringList("labels"));
+        configMap.put("usePermission", configSection.getString("use-permission"));
 
         totalReports = fileManager.get("info").getInt("report-number");
         if (totalReports == 0) totalReports++;

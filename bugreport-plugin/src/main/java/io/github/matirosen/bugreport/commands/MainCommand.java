@@ -5,7 +5,6 @@ import io.github.matirosen.bugreport.conversations.BugReportPrompt;
 import io.github.matirosen.bugreport.guis.BugReportMainMenu;
 import io.github.matirosen.bugreport.guis.BugReportSecondMenu;
 import io.github.matirosen.bugreport.managers.BugReportManager;
-import io.github.matirosen.bugreport.reports.BookReportFactory;
 import io.github.matirosen.bugreport.reports.BugReport;
 import io.github.matirosen.bugreport.utils.ConfigHandler;
 import io.github.matirosen.bugreport.utils.MessageHandler;
@@ -56,11 +55,19 @@ public class MainCommand implements CommandExecutor {
         }
 
         if (args.length >= 1 && args[0].equalsIgnoreCase("menu")){
+            if (!player.hasPermission("bugreport.menu")){
+                ReportPlugin.getMessageHandler().send(player, "no-permission");
+                return false;
+            }
             player.openInventory(bugReportMainMenu.create(1));
             return true;
         }
 
         if (args.length >= 1 && args[0].equalsIgnoreCase("report")){
+            if (!player.hasPermission((String) ReportPlugin.getConfigHandler().getConfigMap().get("usePermission"))){
+                ReportPlugin.getMessageHandler().send(player, "no-permission");
+                return false;
+            }
             ConversationFactory cf = new ConversationFactory(plugin);
             Conversation conversation = cf
                     .withFirstPrompt(new BugReportPrompt("", false, bugReportManager))
@@ -72,6 +79,10 @@ public class MainCommand implements CommandExecutor {
         }
 
         if (args.length >= 2 && args[0].equalsIgnoreCase("get")){
+            if (!player.hasPermission("bugreport.get")){
+                ReportPlugin.getMessageHandler().send(player, "no-permission");
+                return false;
+            }
             int count = Integer.parseInt(args[1]);
 
             BugReport bugReport = bugReportManager.getBugReportById(count);
@@ -92,6 +103,10 @@ public class MainCommand implements CommandExecutor {
         }
 
         if (args.length >= 1 && args[0].equalsIgnoreCase("help")){
+            if (!player.hasPermission("bugreport.help")){
+                ReportPlugin.getMessageHandler().send(player, "no-permission");
+                return false;
+            }
             ReportPlugin.getMessageHandler().sendList(player, "help-command");
             return true;
         }

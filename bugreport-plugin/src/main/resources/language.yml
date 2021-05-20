@@ -3,9 +3,10 @@ prefix: '&a&l[&6&lBUG-REPORT&a&l]'
 ##########GENERAL##########
 
 help-command:
-  -
-  -
-use-help: "&bUse &d/help &bto see commands"
+  - '&bUse &d/bug report &bto start a report.'
+  - '&bUse &d/bug menu &bto open reports menu. &4(Needs permission!)'
+  - '&bUse &d/bug get [number] to obtain a specific report. &4(Needs permission!)'
+use-help: '&bUse &d/help &bto see commands'
 no-permission: '%prefix% &cYou do not have permission to do that!'
 not-find-report: '%prefix% &cThe report could not be found.'
 already-doing-report: '%prefix% &cYou should end your actual report before doing another command!'

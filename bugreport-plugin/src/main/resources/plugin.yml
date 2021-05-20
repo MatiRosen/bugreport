@@ -1,6 +1,9 @@
 name: bug-report
 version: 0.0.1
 main: io.github.matirosen.bugreport.ReportPlugin
+author: MatiRosen
+website: https://github.com/MatiRosen/bugreport
+prefix: Bug-Report
 
 commands:
   bug:

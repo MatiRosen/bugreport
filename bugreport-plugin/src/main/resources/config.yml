@@ -9,6 +9,9 @@ storage:
   port:
   database:
 
+# Set the permission players need to use the report command. Leave as '' for no permission.
+use-permission: 'bugreport.report'
+
 #Time (inactive seconds) to wait before abandoning the player report conversation.
 time-out: 360
 
