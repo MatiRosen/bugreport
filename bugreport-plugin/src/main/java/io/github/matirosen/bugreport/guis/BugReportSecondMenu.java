@@ -9,14 +9,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BugReportSecondMenu implements InventoryHolder {
 
-    @Inject
-    private ReportPlugin reportPlugin;
 
     public Inventory build(BugReport bugReport){
         MessageHandler messageHandler = ReportPlugin.getMessageHandler();

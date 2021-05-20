@@ -5,6 +5,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+
 
 public class MessageHandler {
 
@@ -22,6 +24,19 @@ public class MessageHandler {
 
         player.sendMessage(format(message.replace("%prefix%", messageSection.getString("prefix"))
                 .replace("%player_name%", player.getName())));
+    }
+
+    public void sendList(Player player, String id){
+        ConfigurationSection messageSection = fileManager.get("language");
+
+        List<String> messageList = messageSection.getStringList(id);
+
+        if (messageList == null || messageList.isEmpty()) return;
+
+        for (String message : messageList){
+            player.sendMessage(format(message.replace("%prefix%", messageSection.getString("prefix"))
+                    .replace("%player_name%", player.getName())));
+        }
     }
 
     public String getMessage(String id){

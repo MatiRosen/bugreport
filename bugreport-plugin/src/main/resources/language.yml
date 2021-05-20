@@ -1,8 +1,14 @@
 prefix: '&a&l[&6&lBUG-REPORT&a&l]'
 
 ##########GENERAL##########
+
+help-command:
+  -
+  -
+use-help: "&bUse &d/help &bto see commands"
 no-permission: '%prefix% &cYou do not have permission to do that!'
-not-find-report: '%prefix% &cThe report could not be find.'
+not-find-report: '%prefix% &cThe report could not be found.'
+already-doing-report: '%prefix% &cYou should end your actual report before doing another command!'
 
 ##########REPORT##########
 cancel-any-time: '%prefix% &7You can cancel any time by writing "&ccancel&7"'
@@ -15,9 +21,9 @@ bug-confirmation: '&7Do you want to give more information? (Y/N)'
 write-y-n: '&7You should write "YES" or "NO"'
 report-completed: '&aThanks for reporting!'
 
-##########MENU##########
+##########MENUS##########
 
-###MAIN###
+        ###MAIN###
 previous-page: '&7Previous page'
 next-page: '&7Next page'
 go-to-page: '&bClick here to go to page '
@@ -25,7 +31,7 @@ solved: '&aSOLVED'
 unsolved: '&cUNSOLVED'
 report-id: '&8report-'
 
-###REPORT###
+        ###REPORT###
 report-title: '&7&lReport ID: %report_id%'
 report-details: '&7Click to open report details'
 report-material-name: '&bReport id: %report_id%'
@@ -35,6 +41,9 @@ set-solved: '&7Click to mark this report as solved'
 set-unsolved: '&7Click to mark this report as unsolved'
 bug-solved: '&aSolved'
 bug-unsolved: '&cUnsolved'
+
+        ###LABELS###
+label-title: '&8Labels'
 
 ##########BOOK##########
 first-page-bug-id: '&8Report ID: &2%report_id%'

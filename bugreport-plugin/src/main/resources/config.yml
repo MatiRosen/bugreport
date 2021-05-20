@@ -1,13 +1,13 @@
 # Storage Section
 # Here you can specify where to save the surveys results
-# There are three options: MYSQL, MongoDB, h2 or flatFile
+# There are three options: MYSQL, h2 or flatFile
 storage:
-  type: flatFile
-  username: test
-  password: test
-  ip: localhost
-  port: 3306
-  database: reports
+  type: h2
+  username:
+  password:
+  ip:
+  port:
+  database:
 
 #Time (inactive seconds) to wait before abandoning the player report conversation.
 time-out: 360
@@ -40,11 +40,6 @@ main-inventory:
       lore:
         - '&bClick here to go to page %previous_page%'
       glow: false
-
-report-inventory:
-
-
-
 
 ##########MENU##########
 report-item: 'PAPER'

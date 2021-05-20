@@ -36,8 +36,6 @@ public class MainCommand implements CommandExecutor {
     private BugReportMainMenu bugReportMainMenu;
     @Inject
     private BugReportSecondMenu bugReportSecondMenu;
-    @Inject
-    private BookReportFactory bookReportFactory;
 
 
     @Inject
@@ -51,11 +49,11 @@ public class MainCommand implements CommandExecutor {
             Bukkit.getLogger().log(Level.INFO, MessageHandler.format("&cBug command can only be executed in-game!"));
             return false;
         }
-
         Player player = (Player) sender;
-
-
-        if (player.isConversing()) return false;
+        if (player.isConversing()) {
+            ReportPlugin.getMessageHandler().send(player, "already-doing-report");
+            return false;
+        }
 
         if (args.length >= 1 && args[0].equalsIgnoreCase("menu")){
             player.openInventory(bugReportMainMenu.create(1));
@@ -83,7 +81,7 @@ public class MainCommand implements CommandExecutor {
                 return true;
             }
 
-            bugReportRepository.loadAsync(count, report ->{
+            bugReportRepository.loadAsync(count, report -> {
                 if (report == null){
                     ReportPlugin.getMessageHandler().send(player, "not-find-report");
                     return;
@@ -93,16 +91,31 @@ public class MainCommand implements CommandExecutor {
             return true;
         }
 
+        if (args.length >= 1 && args[0].equalsIgnoreCase("help")){
+            ReportPlugin.getMessageHandler().sendList(player, "help-command");
+            return true;
+        }
+
+        player.sendMessage(MessageHandler.format("&d------ &a&l[&6&lBUG-REPORT&a&l] &d------\n\n"
+                + "&9Author: &eMatiRosen\n"
+                + "&3Version: &e" + plugin.getDescription().getVersion())
+                + "\n\n");
+
+        ReportPlugin.getMessageHandler().send(player, "use-help");
+
+        player.sendMessage(MessageHandler.format("\n&bhttps://github.com/MatiRosen/bugreport\n"
+                + "&d------ &a&l[&6&lBUG-REPORT&a&l] &d------"));
+
         if (args.length >= 1 && args[0].equalsIgnoreCase("test")){
             int counter = Integer.parseInt(args[1]);
 
             for (int i = 0; i < counter; i++){
-                BugReport bugReport = new BugReport(player.getName(), "holaxd", System.currentTimeMillis(), false);
+                BugReport bugReport = new BugReport(player.getName(), "hola xd", System.currentTimeMillis(), false);
                 bugReport.setId(ConfigHandler.totalReports);
                 bugReportManager.addReport(bugReport);
             }
             return true;
         }
-        return false;
+        return true;
     }
 }

@@ -70,7 +70,7 @@ public class HikariConnection implements DataConnection<Connection> {
         try {
             Connection connection = dataSource.getConnection();
             connection.createStatement().executeUpdate(REPORT_TABLE);
-            //connection.createStatement().executeUpdate(LABEL_TABLE);
+            //connection.createStatement().executeUpdate(LABEL_TABLE); //TODO
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
