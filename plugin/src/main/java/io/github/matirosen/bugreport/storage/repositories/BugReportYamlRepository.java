@@ -98,7 +98,10 @@ public class BugReportYamlRepository implements ObjectRepository<BugReport, Inte
 
     @Override
     public void saveAsync(BugReport bugReport, Callback<BugReport> callback){
-
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            save(bugReport);
+            callback.call(bugReport);
+        });
     }
 
     @Override

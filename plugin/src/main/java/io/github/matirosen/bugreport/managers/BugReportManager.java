@@ -1,6 +1,7 @@
 package io.github.matirosen.bugreport.managers;
 
 import io.github.matirosen.bugreport.reports.BugReport;
+import io.github.matirosen.bugreport.storage.Callback;
 import io.github.matirosen.bugreport.utils.ConfigHandler;
 import io.github.matirosen.bugreport.storage.repositories.ObjectRepository;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -45,7 +46,7 @@ public class BugReportManager {
     }
 
     public void saveReport(BugReport bugReport){
-        bugReportRepository.save(bugReport);
+        bugReportRepository.saveAsync(bugReport, report -> {});
     }
 
     public List<BugReport> getBugReportList(){

@@ -32,6 +32,10 @@ public class BugReport {
         labels.add(label);
     }
 
+    public void removeLabel(String label){
+        labels.remove(label);
+    }
+
     public void setSolved(boolean solved){
         this.solved = solved;
     }

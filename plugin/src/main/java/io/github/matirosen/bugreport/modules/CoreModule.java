@@ -2,7 +2,6 @@ package io.github.matirosen.bugreport.modules;
 
 import io.github.matirosen.bugreport.ReportPlugin;
 import io.github.matirosen.bugreport.guis.*;
-import io.github.matirosen.bugreport.listeners.InventoryListener;
 import io.github.matirosen.bugreport.reports.BookReport;
 import io.github.matirosen.bugreport.reports.BookReportFactory;
 import io.github.matirosen.bugreport.managers.BugReportManager;
@@ -29,13 +28,11 @@ public class CoreModule implements Module {
         binder.bind(FileManager.class).singleton();
         binder.bind(BugReportManager.class).singleton();
 
-        binder.bind(InventoryListener.class).singleton();
 
         binder.bind(BugReportMainMenu.class).singleton();
         binder.bind(BugReportSecondMenu.class).singleton();
         binder.bind(PriorityMenu.class).singleton();
         binder.bind(LabelsMenu.class).singleton();
-        binder.bind(FilterMenu.class).singleton();
 
         binder.bind(BookReport.class).toFactory(BookReportFactory.class);
 

@@ -59,7 +59,7 @@ public class MainCommand implements CommandExecutor {
                 ReportPlugin.getMessageHandler().send(player, "no-permission");
                 return false;
             }
-            player.openInventory(bugReportMainMenu.create(1));
+            player.openInventory(bugReportMainMenu.build());
             return true;
         }
 

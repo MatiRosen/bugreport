@@ -20,7 +20,7 @@ public class ConfigHandler {
         this.fileManager = fileManager;
     }
 
-    public void setConfigValues(){
+    public void initializeConfig(){
         ConfigurationSection configSection = fileManager.get("config");
 
         configMap.put("inactiveSeconds", configSection.getInt("time-out"));

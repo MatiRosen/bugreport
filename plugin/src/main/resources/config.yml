@@ -23,13 +23,16 @@ labels:
   - overworld
 
 main-inventory:
-  title: "&7&lReport page: %actual-page%"
+  title: "&7&lReport page: %page%"
   items:
     reports:
       material: PAPER
       name: '&8report-%report_id%'
       lore:
-        - 'Report status: %report_status%'
+        - ''
+        - '%solved%'
+        - 'Priority: %priority%'
+        - '%labels%'
       glow: false
     next-page:
       material: ARROW
