@@ -75,6 +75,11 @@ report-menu:
       name: '&cUnsolved'
       lore:
         - '&7Click to mark this report as solved'
+    main-menu:
+      material: ARROW
+      name: '&bBack tu main menu'
+      lore:
+        - '&7Click to back to main menu.'
 priority-menu:
   title: '&8Priority menu'
   items:

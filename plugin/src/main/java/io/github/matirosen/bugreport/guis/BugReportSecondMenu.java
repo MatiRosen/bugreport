@@ -25,6 +25,8 @@ public class BugReportSecondMenu {
     @Inject
     private BookReportFactory bookReportFactory;
     @Inject
+    private BugReportMainMenu bugReportMainMenu;
+    @Inject
     private LabelsMenu labelsMenu;
     @Inject
     private PriorityMenu priorityMenu;
@@ -93,6 +95,17 @@ public class BugReportSecondMenu {
                             event.setCurrentItem(solvedItem(bugReport.isSolved()));
                             bugReport.setExist(true);
                             bugReportManager.saveReport(bugReport);
+                            return true;
+                        })
+                        .build())
+                .addItem(ItemClickable.builder(8)
+                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("report-menu.items.main-menu.material")))
+                                .setName(Utils.format(config.getString("report-menu.items.main-menu.name")))
+                                .setLore(Utils.format(config.getStringList("report-menu.items.main-menu.lore")))
+                                .build())
+                        .setAction(event -> {
+                            if (!(event.getWhoClicked() instanceof Player)) return false;
+                            event.getWhoClicked().openInventory(bugReportMainMenu.build());
                             return true;
                         })
                         .build())
