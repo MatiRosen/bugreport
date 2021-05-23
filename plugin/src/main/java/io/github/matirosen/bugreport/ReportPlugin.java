@@ -4,9 +4,9 @@ import io.github.matirosen.bugreport.managers.BugReportManager;
 import io.github.matirosen.bugreport.managers.FileManager;
 import io.github.matirosen.bugreport.modules.CoreModule;
 import io.github.matirosen.bugreport.storage.DataConnection;
-import io.github.matirosen.bugreport.utils.ConfigHandler;
 import io.github.matirosen.bugreport.utils.MessageHandler;
 import io.github.matirosen.bugreport.commands.MainCommand;
+import io.github.matirosen.bugreport.utils.Utils;
 import me.yushust.inject.Injector;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,9 +28,7 @@ public class ReportPlugin extends JavaPlugin {
     @Inject
     private MainCommand mainCommand;
 
-
     private static MessageHandler messageHandler;
-    private static ConfigHandler configHandler;
 
     public void onEnable() {
         try {
@@ -43,25 +41,20 @@ public class ReportPlugin extends JavaPlugin {
         fileManager.loadAllFileConfigurations();
         connection.connect();
 
-        configHandler = new ConfigHandler(fileManager);
-        configHandler.initializeConfig();
         messageHandler = new MessageHandler(fileManager);
-
+        Utils.totalReports = fileManager.get("info").getInt("report-number");
+        if (Utils.totalReports == 0) Utils.totalReports++;
         bugReportManager.start();
 
         Bukkit.getPluginManager().registerEvents(new GUIListeners(), this);
     }
 
     public void onDisable(){
+        bugReportManager.stop();
         connection.disconnect();
     }
 
-
     public static MessageHandler getMessageHandler(){
         return messageHandler;
-    }
-
-    public static ConfigHandler getConfigHandler(){
-        return configHandler;
     }
 }

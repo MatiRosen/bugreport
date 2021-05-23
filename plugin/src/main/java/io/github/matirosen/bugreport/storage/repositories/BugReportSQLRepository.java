@@ -3,8 +3,7 @@ package io.github.matirosen.bugreport.storage.repositories;
 import io.github.matirosen.bugreport.reports.BugReport;
 import io.github.matirosen.bugreport.storage.Callback;
 import io.github.matirosen.bugreport.storage.DataConnection;
-import io.github.matirosen.bugreport.storage.connections.HikariConnection;
-import io.github.matirosen.bugreport.utils.ConfigHandler;
+import io.github.matirosen.bugreport.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -46,9 +45,8 @@ public class BugReportSQLRepository implements ObjectRepository<BugReport, Integ
             ResultSet resultSet = statement.executeQuery();
             BugReport bugReport;
             if (resultSet.next()){
-                bugReport = new BugReport(resultSet.getString("player_name"),
+                bugReport = new BugReport(id, resultSet.getString("player_name"),
                         resultSet.getString("report_message"), resultSet.getLong("time"), true);
-                bugReport.setId(id);
                 bugReport.setPriority(resultSet.getInt("priority"));
                 bugReport.setSolved(resultSet.getBoolean("solved"));
             } else{
@@ -65,8 +63,8 @@ public class BugReportSQLRepository implements ObjectRepository<BugReport, Integ
     @Override
     public List<BugReport> loadAll() {
         List<BugReport> bugReportList = new ArrayList<>();
-        int counter = ConfigHandler.totalReports;
-        int goal = ConfigHandler.totalReports - 500;
+        int counter = Utils.totalReports;
+        int goal = Utils.totalReports - 500;
 
         while (counter > goal){
             if (counter == 0) break;

@@ -48,7 +48,7 @@ public class MessageHandler {
         return format(message.replace("%prefix%", messageSection.getString("prefix")));
     }
 
-    public static String format(String s){
+    private String format(String s){
         return ChatColor.translateAlternateColorCodes('&',s);
     }
 }

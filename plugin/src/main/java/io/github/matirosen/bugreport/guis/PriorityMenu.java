@@ -3,9 +3,9 @@ package io.github.matirosen.bugreport.guis;
 import io.github.matirosen.bugreport.ReportPlugin;
 import io.github.matirosen.bugreport.managers.BugReportManager;
 import io.github.matirosen.bugreport.reports.BugReport;
-import io.github.matirosen.bugreport.utils.ConfigHandler;
-import io.github.matirosen.bugreport.utils.MessageHandler;
+import io.github.matirosen.bugreport.utils.Utils;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import team.unnamed.gui.abstraction.item.ItemClickable;
@@ -20,15 +20,17 @@ public class PriorityMenu {
     private BugReportSecondMenu bugReportSecondMenu;
     @Inject
     private BugReportManager bugReportManager;
+    @Inject
+    private ReportPlugin plugin;
 
     public Inventory create(BugReport bugReport){
-        MessageHandler messageHandler = ReportPlugin.getMessageHandler();
-        ConfigHandler configHandler = ReportPlugin.getConfigHandler();
+        FileConfiguration config = plugin.getConfig();
 
-        return GUIBuilder.builder("Priority", 1)
+        return GUIBuilder.builder(Utils.format(config.getString("priority-menu.title")), 1)
                 .addItem(ItemClickable.builder(0)
-                        .setItemStack(ItemBuilder.newBuilder(Material.COAL)
-                                .setName("Set priority to 1")
+                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("priority-menu.items.1.material")))
+                                .setName(Utils.format(config.getString("priority-menu.items.1.name")))
+                                .setLore(Utils.format(config.getStringList("priority-menu.items.1.lore")))
                                 .build())
                         .setAction(event -> {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
@@ -41,8 +43,9 @@ public class PriorityMenu {
                         })
                         .build())
                 .addItem(ItemClickable.builder(1)
-                        .setItemStack(ItemBuilder.newBuilder(Material.IRON_INGOT)
-                                .setName("Set priority to 2")
+                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("priority-menu.items.2.material")))
+                                .setName(Utils.format(config.getString("priority-menu.items.2.name")))
+                                .setLore(Utils.format(config.getStringList("priority-menu.items.2.lore")))
                                 .build())
                         .setAction(event -> {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
@@ -54,8 +57,9 @@ public class PriorityMenu {
                         })
                         .build())
                 .addItem(ItemClickable.builder(2)
-                        .setItemStack(ItemBuilder.newBuilder(Material.GOLD_INGOT)
-                                .setName("Set priority to 3")
+                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("priority-menu.items.3.material")))
+                                .setName(Utils.format(config.getString("priority-menu.items.3.name")))
+                                .setLore(Utils.format(config.getStringList("priority-menu.items.3.lore")))
                                 .build())
                         .setAction(event -> {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
@@ -68,8 +72,9 @@ public class PriorityMenu {
                         })
                         .build())
                 .addItem(ItemClickable.builder(3)
-                        .setItemStack(ItemBuilder.newBuilder(Material.EMERALD)
-                                .setName("Set priority to 4")
+                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("priority-menu.items.4.material")))
+                                .setName(Utils.format(config.getString("priority-menu.items.4.name")))
+                                .setLore(Utils.format(config.getStringList("priority-menu.items.4.lore")))
                                 .build())
                         .setAction(event -> {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
@@ -82,8 +87,9 @@ public class PriorityMenu {
                         })
                         .build())
                 .addItem(ItemClickable.builder(4)
-                        .setItemStack(ItemBuilder.newBuilder(Material.DIAMOND)
-                                .setName("Set priority to 5")
+                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("priority-menu.items.5.material")))
+                                .setName(Utils.format(config.getString("priority-menu.items.5.name")))
+                                .setLore(Utils.format(config.getStringList("priority-menu.items.5.lore")))
                                 .build())
                         .setAction(event -> {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
@@ -94,11 +100,6 @@ public class PriorityMenu {
                             event.getWhoClicked().openInventory(bugReportSecondMenu.build(bugReport));
                             return true;
                         })
-                        .build())
-                .addItem(ItemClickable.builder(8)
-                        .setItemStack(ItemBuilder.newBuilder(Material.PAPER)
-                                .setName(MessageHandler.format("&7" + bugReport.getId()))
-                                .build())
                         .build())
                 .build();
     }

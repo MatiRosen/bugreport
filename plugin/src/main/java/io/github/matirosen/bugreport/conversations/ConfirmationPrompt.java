@@ -3,7 +3,7 @@ package io.github.matirosen.bugreport.conversations;
 import io.github.matirosen.bugreport.ReportPlugin;
 import io.github.matirosen.bugreport.reports.BugReport;
 import io.github.matirosen.bugreport.managers.BugReportManager;
-import io.github.matirosen.bugreport.utils.ConfigHandler;
+import io.github.matirosen.bugreport.utils.Utils;
 import io.github.matirosen.bugreport.utils.MessageHandler;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
@@ -28,7 +28,7 @@ public class ConfirmationPrompt extends StringPrompt {
 
     @Override
     public String getPromptText(ConversationContext context) {
-        return messageHandler.getMessage("bug-description") + MessageHandler.format("\n&b"+bugReportMessage+"\n")
+        return messageHandler.getMessage("bug-description") + Utils.format("\n&b"+bugReportMessage+"\n")
                 + messageHandler.getMessage("bug-confirmation");
     }
 
@@ -44,8 +44,7 @@ public class ConfirmationPrompt extends StringPrompt {
             Player player = (Player) context.getForWhom();
             player.sendRawMessage(messageHandler.getMessage("report-completed"));
 
-            BugReport report = new BugReport(player.getName(), bugReportMessage, System.currentTimeMillis(), false);
-            report.setId(ConfigHandler.totalReports);
+            BugReport report = new BugReport(Utils.totalReports, player.getName(), bugReportMessage, System.currentTimeMillis(), false);
             bugReportManager.addReport(report);
 
             return Prompt.END_OF_CONVERSATION;

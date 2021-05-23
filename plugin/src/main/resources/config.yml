@@ -28,12 +28,12 @@ main-menu:
   items:
     reports:
       material: PAPER
-      name: '&8report-%report_id%'
+      name: '&8Report %report_id%'
       lore:
         - ''
         - '%solved%'
-        - 'Priority: %priority%'
-        - '%labels%'
+        - '&7Priority: %priority%'
+        - '&b%labels%'
       glow: false
     next-page:
       material: ARROW
@@ -58,10 +58,13 @@ report-menu:
       name: '&aLabels'
       lore:
         - '&7Click to open labels menu'
+        - ''
+        - '&b%labels%'
     priority:
       material: DIAMOND
       name: '&bPriority: %bug_priority%'
-      lore: '&7Click to open priority menu'
+      lore:
+        - '&7Click to open priority menu'
     solved:
       material: EMERALD_BLOCK
       name: '&aSolved'
@@ -77,33 +80,55 @@ priority-menu:
   items:
     1:
       material: COAL
-      name: 'Set priority to 1'
+      name: '&bSet priority to 1'
       lore:
         - '&7Click to set priority to 1'
     2:
       material: IRON_INGOT
-      name: 'Set priority to 2'
+      name: '&bSet priority to 2'
       lore:
         - '&7Click to set priority to 2'
     3:
       material: GOLD_INGOT
-      name: 'Set priority to 3'
+      name: '&bSet priority to 3'
       lore:
         - '&7Click to set priority to 3'
     4:
       material: EMERALD
-      name: 'Set priority to 4'
+      name: '&bSet priority to 4'
       lore:
         - '&7Click to set priority to 4'
     5:
       material: DIAMOND
-      name: 'Set priority to 5'
+      name: '&bSet priority to 5'
       lore:
         - '&7Click to set priority to 5'
 labels-menu:
   title: '&8Labels menu'
   items:
     labels:
-      material: PAPER
+      selected:
+        material: PAPER
+        color-name: '&d'
+        lore:
+          - '&7Click to remove this label'
+      unselected:
+        material: PAPER
+        color-name: '&b'
+        lore:
+          - '&7Click to add this label'
+    back:
+      material: COMPASS
+      name: '&bBack to report %report_id%'
       lore:
-        - '&7Click to add this label'
+        - '&7Click to go to report menu'
+    next-page:
+      material: ARROW
+      name: '&7Next page'
+      lore:
+        - '&bClick to go to page %next_page%'
+    previous-page:
+      material: ARROW
+      name: '&7Previous page'
+      lore:
+        - '&bClick to go to page %previous_page%'

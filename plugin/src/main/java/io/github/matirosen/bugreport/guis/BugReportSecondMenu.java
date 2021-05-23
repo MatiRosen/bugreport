@@ -5,8 +5,9 @@ import io.github.matirosen.bugreport.managers.BugReportManager;
 import io.github.matirosen.bugreport.reports.BookReport;
 import io.github.matirosen.bugreport.reports.BookReportFactory;
 import io.github.matirosen.bugreport.reports.BugReport;
-import io.github.matirosen.bugreport.utils.MessageHandler;
+import io.github.matirosen.bugreport.utils.Utils;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -16,6 +17,7 @@ import team.unnamed.gui.core.item.type.ItemBuilder;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BugReportSecondMenu {
@@ -28,21 +30,28 @@ public class BugReportSecondMenu {
     private PriorityMenu priorityMenu;
     @Inject
     private BugReportManager bugReportManager;
+    @Inject
+    private ReportPlugin plugin;
 
     public Inventory build(BugReport bugReport){
-        MessageHandler messageHandler = ReportPlugin.getMessageHandler();
-
-        List<String> reportLore = new ArrayList<>();
-        reportLore.add(messageHandler.getMessage("report-details"));
+        FileConfiguration config = plugin.getConfig();
 
 
-        return GUIBuilder.builder(messageHandler.getMessage("report-title")
-                .replace("%report_id%", String.valueOf(bugReport.getId())), 1)
+        List<String> labelLore = new ArrayList<>();
+        for (String label : config.getStringList("report-menu.items.labels.lore")){
+            if (label.contains("%labels%")){
+                bugReport.getLabels().forEach(s -> labelLore.add(label.replace("%labels%", s)));
+            } else{
+                labelLore.add(Utils.format(label));
+            }
+        }
+
+        return GUIBuilder.builder(Utils.format(config.getString("report-menu.title").replace("%report_id%", String.valueOf(bugReport.getId()))), 1)
                 .addItem(ItemClickable.builder(0)
-                        .setItemStack(ItemBuilder.newBuilder(Material.PAPER)
-                                .setName(messageHandler.getMessage("report-material-name").replace("%report_id%",
-                                        String.valueOf(bugReport.getId())))
-                                .setLore(reportLore)
+                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("report-menu.items.report.material")))
+                                .setName(Utils.format(config.getString("report-menu.items.report.name").replace("%report_id%",
+                                        String.valueOf(bugReport.getId()))))
+                                .setLore(Arrays.asList(Utils.format(config.getStringList("report-menu.items.report.lore"))))
                                 .build())
                         .setAction(event -> {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
@@ -55,9 +64,9 @@ public class BugReportSecondMenu {
                         })
                         .build())
                 .addItem(ItemClickable.builder(1)
-                        .setItemStack(ItemBuilder.newBuilder(Material.WRITTEN_BOOK)
-                                .setName(messageHandler.getMessage("labels"))
-                                .setLore(bugReport.getLabels())
+                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("report-menu.items.labels.material")))
+                                .setName(Utils.format(config.getString("report-menu.items.labels.name")))
+                                .setLore(Utils.format(labelLore))
                                 .build())
                         .setAction(event -> {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
@@ -66,9 +75,10 @@ public class BugReportSecondMenu {
                         })
                         .build())
                 .addItem(ItemClickable.builder(2)
-                        .setItemStack(ItemBuilder.newBuilder(Material.DIAMOND)
-                                .setName(messageHandler.getMessage("priority").replace("%bug_priority%",
-                                        String.valueOf(bugReport.getPriority())))
+                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("report-menu.items.priority.material")))
+                                .setName(Utils.format(config.getString("report-menu.items.priority.name").replace("%bug_priority%",
+                                        String.valueOf(bugReport.getPriority()))))
+                                .setLore(Utils.format(config.getStringList("report-menu.items.priority.lore")))
                                 .build())
                         .setAction(event -> {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
@@ -86,29 +96,20 @@ public class BugReportSecondMenu {
                             return true;
                         })
                         .build())
-                .addItem(ItemClickable.builder(8)
-                        .setItemStack(ItemBuilder.newBuilder(Material.PAPER)
-                                .setName(MessageHandler.format("&7" + bugReport.getId()))
-                                .build())
-                        .build())
                 .build();
     }
 
-    private ItemStack solvedItem(boolean solved){
-        MessageHandler messageHandler = ReportPlugin.getMessageHandler();
+    private ItemStack solvedItem(boolean isSolved){
+        FileConfiguration config = plugin.getConfig();
+        String solved = isSolved ? "solved" : "unsolved";
 
-
-        Material material = solved ? Material.EMERALD_BLOCK : Material.REDSTONE_BLOCK;
-        String name = solved ? messageHandler.getMessage("bug-solved")
-                : messageHandler.getMessage("bug-unsolved");
-        List<String> lore = new ArrayList<>();
-        String solvedString = solved ? messageHandler.getMessage("set-unsolved")
-                : messageHandler.getMessage("set-solved");
-        lore.add(solvedString);
+        Material material = Material.valueOf(config.getString("report-menu.items." + solved + ".material"));
+        String name = config.getString("report-menu.items." + solved + ".name");
+        List<String> lore = new ArrayList<>(config.getStringList("report-menu.items." + solved + ".lore"));
 
         return new CustomGuiItem(material, 1)
-                .displayName(name)
-                .lore(lore)
+                .displayName(Utils.format(name))
+                .lore(Arrays.asList(Utils.format(lore)))
                 .create();
     }
 }

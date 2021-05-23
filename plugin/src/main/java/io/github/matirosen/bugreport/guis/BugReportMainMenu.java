@@ -2,10 +2,11 @@ package io.github.matirosen.bugreport.guis;
 
 import io.github.matirosen.bugreport.ReportPlugin;
 import io.github.matirosen.bugreport.reports.BugReport;
-import io.github.matirosen.bugreport.utils.ConfigHandler;
 import io.github.matirosen.bugreport.utils.MessageHandler;
 import io.github.matirosen.bugreport.managers.BugReportManager;
+import io.github.matirosen.bugreport.utils.Utils;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -16,8 +17,8 @@ import team.unnamed.gui.core.item.type.ItemBuilder;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class BugReportMainMenu {
@@ -26,42 +27,38 @@ public class BugReportMainMenu {
     private BugReportManager bugReportManager;
     @Inject
     private BugReportSecondMenu bugReportSecondMenu;
+    @Inject
+    private ReportPlugin reportPlugin;
 
 
     public Inventory build(){
         MessageHandler messageHandler = ReportPlugin.getMessageHandler();
-        ConfigHandler configHandler = ReportPlugin.getConfigHandler();
-        Map<String, Object> inventoryMap = configHandler.getInventoryMap();
         List<ItemStack> entities = new ArrayList<>();
 
-        List<String> reportLore = (List<String>) configHandler.getInventoryMap().get("reportLore");
+        FileConfiguration config = reportPlugin.getConfig();
+
+        List<String> reportLore = Arrays.asList(Utils.format(config.getStringList("main-menu.items.reports.lore")));
         String solved = messageHandler.getMessage("solved");
         String unsolved = messageHandler.getMessage("unsolved");
         for (BugReport bugReport : bugReportManager.getBugReportList()) {
             List<String> lore = new ArrayList<>();
-            String labels = "";
+            String labels = bugReport.getLabels().toString().replace("[", "").replace("]", "");
 
-            for (String s : bugReport.getLabels()){
-                labels = s + ", " + labels;
-            }
-
-            lore.add(MessageHandler.format("&7" + bugReport.getId()));
-            String finalLabels = labels;
+            lore.add(Utils.format("&7" + bugReport.getId()));
             reportLore.forEach(s ->
                     lore.add(s.replace("%solved%", bugReport.isSolved() ? solved : unsolved)
                         .replace("%priority%", bugReport.getPriority() + "")
-                        .replace("%labels%", finalLabels)));
+                        .replace("%labels%", labels)));
 
-            entities.add(new CustomGuiItem(Material.valueOf((String) inventoryMap.get("reportMaterial")), 1)
-                    .displayName(((String) inventoryMap.get("reportName")).replace("%report_id%",
-                            String.valueOf(bugReport.getId())))
+            entities.add(new CustomGuiItem(Material.valueOf(config.getString("main-menu.items.reports.material")), 1)
+                    .displayName(Utils.format(config.getString("main-menu.items.reports.name").replace("%report_id%",
+                            String.valueOf(bugReport.getId()))))
                     .lore(lore)
-                    .glow((boolean) inventoryMap.get("reportGlow"))
+                    .glow(config.getBoolean("main-menu.items.reports.glow"))
                     .create());
         }
 
-        return GUIBuilder.builderPaginated(ItemStack.class, MessageHandler.format((String)
-                inventoryMap.get("mainInventoryTitle")))
+        return GUIBuilder.builderPaginated(ItemStack.class, Utils.format(config.getString("main-menu.title")))
                 .setBounds(0, 45)
                 .setEntities(entities)
                 .setItemParser(item -> ItemClickable.builder()
@@ -89,17 +86,17 @@ public class BugReportMainMenu {
                                 .create())
                         .build())
                 .setNextPageItem(ItemClickable.builder(50)
-                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf((String) inventoryMap.get("previousMaterial")))
-                                .setName((String) inventoryMap.get("previousName"))
-                                .setLore(MessageHandler.format(messageHandler.getMessage("go-to-page")))
+                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("main-menu.items.next-page.material")))
+                                .setName(Utils.format(config.getString("main-menu.items.next-page.name")))
+                                .setLore(Utils.format(config.getStringList("main-menu.items.next-page.lore")))
                                 .build()
                         )
                         .build()
                 )
                 .setPreviousPageItem(ItemClickable.builder(48)
-                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf((String) inventoryMap.get("previousMaterial")))
-                                .setName((String) inventoryMap.get("previousName"))
-                                .setLore(MessageHandler.format(messageHandler.getMessage("go-to-page")))
+                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("main-menu.items.previous-page.material")))
+                                .setName(Utils.format(config.getString("main-menu.items.previous-page.name")))
+                                .setLore(Utils.format(config.getStringList("main-menu.items.previous-page.lore")))
                                 .build()
                         )
                         .build()

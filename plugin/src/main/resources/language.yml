@@ -23,6 +23,9 @@ write-y-n: '&7You should write "YES" or "NO"'
 report-completed: '&aThanks for reporting!'
 
 
+solved: '&aSolved'
+unsolved: '&cUnsolved'
+
 ##########BOOK##########
 first-page-bug-id: '&8Report ID: &2%report_id%'
 first-page-player: '&8- Reporter name: &2%player_name%'

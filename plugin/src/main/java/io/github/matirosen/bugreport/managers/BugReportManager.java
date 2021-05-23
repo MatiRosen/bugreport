@@ -1,8 +1,7 @@
 package io.github.matirosen.bugreport.managers;
 
 import io.github.matirosen.bugreport.reports.BugReport;
-import io.github.matirosen.bugreport.storage.Callback;
-import io.github.matirosen.bugreport.utils.ConfigHandler;
+import io.github.matirosen.bugreport.utils.Utils;
 import io.github.matirosen.bugreport.storage.repositories.ObjectRepository;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.FileConfigurationOptions;
@@ -28,18 +27,18 @@ public class BugReportManager {
             bugReportList.remove(499);
         }
         saveReport(bugReport);
-        ConfigHandler.totalReports++;
+        Utils.totalReports++;
 
         File file = new File(fileManager.getReportsFolder(), "info.yml");
 
-        FileConfiguration config = fileManager.get("info");
+        FileConfiguration info = fileManager.get("info");
 
-        FileConfigurationOptions fileConfigurationOptions = config.options();
+        FileConfigurationOptions fileConfigurationOptions = info.options();
         fileConfigurationOptions.header("Do not change this number. It's the total report counter.");
 
-        config.set("report-number", ConfigHandler.totalReports);
+        info.set("report-number", Utils.totalReports);
         try {
-            config.save(file);
+            info.save(file);
         } catch (IOException e) {
             e.printStackTrace();
         }

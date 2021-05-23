@@ -5,7 +5,7 @@ import java.util.List;
 
 public class BugReport {
 
-    private int id;
+    private final int id;
     private final String playerName, reportMessage;
     private final long currentTimeMillis;
     private final List<String> labels = new ArrayList<>();
@@ -13,15 +13,12 @@ public class BugReport {
     private boolean solved;
     private boolean exist;
 
-    public BugReport(String playerName, String reportMessage, long currentTimeMillis, boolean exist){
+    public BugReport(int id, String playerName, String reportMessage, long currentTimeMillis, boolean exist){
+        this.id = id;
         this.exist = exist;
         this.playerName = playerName;
         this.reportMessage = reportMessage;
         this.currentTimeMillis = currentTimeMillis;
-    }
-
-    public void setId(int id){
-        this.id = id;
     }
 
     public void setPriority(int priority){

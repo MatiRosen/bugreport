@@ -3,6 +3,7 @@ package io.github.matirosen.bugreport.reports;
 import io.github.matirosen.bugreport.ReportPlugin;
 import io.github.matirosen.bugreport.nms.common.NMS;
 import io.github.matirosen.bugreport.utils.MessageHandler;
+import io.github.matirosen.bugreport.utils.Utils;
 import me.yushust.inject.assisted.Assist;
 import me.yushust.inject.assisted.Assisted;
 import org.bukkit.Material;
@@ -56,7 +57,7 @@ public class BookReport {
                 : messageHandler.getMessage("first-page-unsolved");
         String priority = String.valueOf(bugReport.getPriority());
 
-        String page1 = MessageHandler.format(messageHandler.getMessage("first-page-bug-id")
+        String page1 = Utils.format(messageHandler.getMessage("first-page-bug-id")
                 .replace("%report_id%", id) + "\n\n" + messageHandler.getMessage("first-page-player")
                 .replace("%player_name%", playerName) + "\n" + messageHandler.getMessage("first-page-date")
                 .replace("%report_date%", date) + "\n" + messageHandler.getMessage("first-page-priority")

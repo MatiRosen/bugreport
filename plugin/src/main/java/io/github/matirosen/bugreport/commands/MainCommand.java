@@ -6,7 +6,7 @@ import io.github.matirosen.bugreport.guis.BugReportMainMenu;
 import io.github.matirosen.bugreport.guis.BugReportSecondMenu;
 import io.github.matirosen.bugreport.managers.BugReportManager;
 import io.github.matirosen.bugreport.reports.BugReport;
-import io.github.matirosen.bugreport.utils.ConfigHandler;
+import io.github.matirosen.bugreport.utils.Utils;
 import io.github.matirosen.bugreport.utils.MessageHandler;
 import io.github.matirosen.bugreport.storage.repositories.ObjectRepository;
 import org.bukkit.Bukkit;
@@ -14,6 +14,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
@@ -45,7 +46,7 @@ public class MainCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (sender instanceof ConsoleCommandSender) {
-            Bukkit.getLogger().log(Level.INFO, MessageHandler.format("&cBug command can only be executed in-game!"));
+            Bukkit.getLogger().log(Level.INFO, Utils.format("&cBug command can only be executed in-game!"));
             return false;
         }
         Player player = (Player) sender;
@@ -64,7 +65,8 @@ public class MainCommand implements CommandExecutor {
         }
 
         if (args.length >= 1 && args[0].equalsIgnoreCase("report")){
-            if (!player.hasPermission((String) ReportPlugin.getConfigHandler().getConfigMap().get("usePermission"))){
+            FileConfiguration config = plugin.getConfig();
+            if (!player.hasPermission(config.getString("use-permission"))){
                 ReportPlugin.getMessageHandler().send(player, "no-permission");
                 return false;
             }
@@ -72,7 +74,7 @@ public class MainCommand implements CommandExecutor {
             Conversation conversation = cf
                     .withFirstPrompt(new BugReportPrompt("", false, bugReportManager))
                     .withLocalEcho(false)
-                    .withTimeout((int) ReportPlugin.getConfigHandler().getConfigMap().get("inactiveSeconds"))
+                    .withTimeout(config.getInt("time-out"))
                     .buildConversation(player);
             conversation.begin();
             return true;
@@ -111,22 +113,21 @@ public class MainCommand implements CommandExecutor {
             return true;
         }
 
-        player.sendMessage(MessageHandler.format("&d------ &a&l[&6&lBUG-REPORT&a&l] &d------\n\n"
+        player.sendMessage(Utils.format("&d------ &a&l[&6&lBUG-REPORT&a&l] &d------\n\n"
                 + "&9Author: &eMatiRosen\n"
                 + "&3Version: &e" + plugin.getDescription().getVersion())
                 + "\n\n");
 
         ReportPlugin.getMessageHandler().send(player, "use-help");
 
-        player.sendMessage(MessageHandler.format("\n&bhttps://github.com/MatiRosen/bugreport\n"
+        player.sendMessage(Utils.format("\n&bhttps://github.com/MatiRosen/bugreport\n"
                 + "&d------ &a&l[&6&lBUG-REPORT&a&l] &d------"));
 
         if (args.length >= 1 && args[0].equalsIgnoreCase("test")){
             int counter = Integer.parseInt(args[1]);
 
             for (int i = 0; i < counter; i++){
-                BugReport bugReport = new BugReport(player.getName(), "hola xd", System.currentTimeMillis(), false);
-                bugReport.setId(ConfigHandler.totalReports);
+                BugReport bugReport = new BugReport(Utils.totalReports, player.getName(), "hola xd", System.currentTimeMillis(), false);
                 bugReportManager.addReport(bugReport);
             }
             return true;

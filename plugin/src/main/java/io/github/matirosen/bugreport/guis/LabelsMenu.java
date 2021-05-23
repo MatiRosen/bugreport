@@ -3,9 +3,9 @@ package io.github.matirosen.bugreport.guis;
 import io.github.matirosen.bugreport.ReportPlugin;
 import io.github.matirosen.bugreport.managers.BugReportManager;
 import io.github.matirosen.bugreport.reports.BugReport;
-import io.github.matirosen.bugreport.utils.ConfigHandler;
-import io.github.matirosen.bugreport.utils.MessageHandler;
+import io.github.matirosen.bugreport.utils.Utils;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -15,8 +15,8 @@ import team.unnamed.gui.core.item.type.ItemBuilder;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class LabelsMenu {
 
@@ -24,34 +24,29 @@ public class LabelsMenu {
     private BugReportManager bugReportManager;
     @Inject
     private BugReportSecondMenu bugReportSecondMenu;
+    @Inject
+    private ReportPlugin plugin;
 
     public Inventory create(BugReport bugReport){
-        MessageHandler messageHandler = ReportPlugin.getMessageHandler();
-        ConfigHandler configHandler = ReportPlugin.getConfigHandler();
-        Map<String, Object> inventoryMap = configHandler.getInventoryMap();
-
+        FileConfiguration config = plugin.getConfig();
         List<ItemStack> entities = new ArrayList<>();
 
-        List<String> lore = new ArrayList<>();
-        lore.add(MessageHandler.format("&7Click to add this label"));
 
-        for (String label : (List<String>) configHandler.getConfigMap().get("labels")){
-            boolean isSelected = bugReport.getLabels().contains(label);
-            entities.add(getItemStack(label, lore, isSelected));
+        for (String label : config.getStringList("labels")){
+            entities.add(getItemStack(label, bugReport.getLabels().contains(label)));
         }
 
-        return GUIBuilder.builderPaginated(ItemStack.class, "labels", 1)
+        return GUIBuilder.builderPaginated(ItemStack.class, Utils.format(config.getString("labels-menu.title")))
                 .setBounds(0, 45)
                 .setEntities(entities)
                 .setItemParser(item -> ItemClickable.builder()
                         .setItemStack(item)
                         .setAction(event -> {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
-                            String label = event.getCurrentItem().getItemMeta().getDisplayName();
+                            String label = event.getCurrentItem().getItemMeta().getDisplayName().substring(2);
 
-                            boolean hasLabel = bugReport.getLabels().contains(label);
-
-                            if (!hasLabel){
+                            boolean isSelected = bugReport.getLabels().contains(label);
+                            if (!isSelected){
                                 bugReport.addLabel(label);
                             } else{
                                 bugReport.removeLabel(label);
@@ -59,14 +54,16 @@ public class LabelsMenu {
                             bugReport.setExist(true);
                             bugReportManager.saveReport(bugReport);
 
-                            event.setCurrentItem(getItemStack(label, lore, !hasLabel));
+                            event.setCurrentItem(getItemStack(label, !isSelected));
                             event.setCancelled(true);
                             return true;
                         })
                         .build())
                 .addItem(ItemClickable.builder(49)
-                        .setItemStack(new CustomGuiItem(Material.COMPASS, 1)
-                                .displayName(MessageHandler.format("&7" + bugReport.getId()))
+                        .setItemStack(new CustomGuiItem(Material.valueOf(config.getString("labels-menu.items.back.material")), 1)
+                                .displayName(Utils.format(config.getString("labels-menu.items.back.name")).replace("%report_id%",
+                                        bugReport.getId() + ""))
+                                .lore(Arrays.asList(Utils.format(config.getStringList("labels-menu.items.back.lore"))))
                                 .create())
                         .setAction(event -> {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
@@ -75,17 +72,17 @@ public class LabelsMenu {
                         })
                         .build())
                 .setNextPageItem(ItemClickable.builder(50)
-                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf((String) inventoryMap.get("previousMaterial")))
-                                .setName((String) inventoryMap.get("previousName"))
-                                .setLore(MessageHandler.format(messageHandler.getMessage("go-to-page")))
+                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("labels-menu.items.next-page.material")))
+                                .setName(Utils.format(config.getString("labels-menu.items.next-page.name")))
+                                .setLore(Utils.format(config.getStringList("labels-menu.items.next-page.lore")))
                                 .build()
                         )
                         .build()
                 )
                 .setPreviousPageItem(ItemClickable.builder(48)
-                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf((String) inventoryMap.get("previousMaterial")))
-                                .setName((String) inventoryMap.get("previousName"))
-                                .setLore(MessageHandler.format(messageHandler.getMessage("go-to-page")))
+                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("labels-menu.items.previous-page.material")))
+                                .setName(config.getString("labels-menu.items.previous-page.name"))
+                                .setLore(config.getStringList("labels-menu.items.previous-page.lore"))
                                 .build()
                         )
                         .build()
@@ -93,10 +90,13 @@ public class LabelsMenu {
                 .build();
     }
 
-    private ItemStack getItemStack(String label, List<String> lore, boolean isSelected){
-        return new CustomGuiItem(Material.PAPER, 1)
-                .displayName(label)
-                .lore(lore)
+    private ItemStack getItemStack(String label, boolean isSelected){
+        FileConfiguration config = plugin.getConfig();
+        String selected = isSelected ? "selected" : "unselected";
+
+        return new CustomGuiItem(Material.valueOf(config.getString("labels-menu.items.labels." + selected + ".material")), 1)
+                .displayName(Utils.format(config.getString("labels-menu.items.labels." + selected + ".color-name") + label))
+                .lore(Arrays.asList(Utils.format(config.getStringList("labels-menu.items.labels." + selected + ".lore"))))
                 .glow(isSelected)
                 .create();
     }

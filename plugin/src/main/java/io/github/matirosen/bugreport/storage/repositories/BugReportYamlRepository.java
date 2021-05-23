@@ -3,7 +3,7 @@ package io.github.matirosen.bugreport.storage.repositories;
 import io.github.matirosen.bugreport.managers.FileManager;
 import io.github.matirosen.bugreport.reports.BugReport;
 import io.github.matirosen.bugreport.storage.Callback;
-import io.github.matirosen.bugreport.utils.ConfigHandler;
+import io.github.matirosen.bugreport.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -40,8 +40,7 @@ public class BugReportYamlRepository implements ObjectRepository<BugReport, Inte
         long currentTimeMillis = configuration.getLong("time");
         boolean solved = configuration.getBoolean("solved");
 
-        BugReport bugReport = new BugReport(playerName, reportMessage, currentTimeMillis, false);
-        bugReport.setId(id);
+        BugReport bugReport = new BugReport(id, playerName, reportMessage, currentTimeMillis, false);
         bugReport.setPriority(priority);
         bugReport.setSolved(solved);
 
@@ -51,8 +50,8 @@ public class BugReportYamlRepository implements ObjectRepository<BugReport, Inte
     @Override
     public List<BugReport> loadAll() {
         List<BugReport> bugReportList = new ArrayList<>();
-        int counter = ConfigHandler.totalReports;
-        int goal = ConfigHandler.totalReports - 500;
+        int counter = Utils.totalReports;
+        int goal = Utils.totalReports - 500;
 
         while (counter > goal){
             if (counter == 0) break;
