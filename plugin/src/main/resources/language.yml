@@ -22,29 +22,6 @@ bug-confirmation: '&7Do you want to give more information? (Y/N)'
 write-y-n: '&7You should write "YES" or "NO"'
 report-completed: '&aThanks for reporting!'
 
-##########MENUS##########
-
-        ###MAIN###
-previous-page: '&7Previous page'
-next-page: '&7Next page'
-go-to-page: '&bClick here to go to page '
-solved: '&aSOLVED'
-unsolved: '&cUNSOLVED'
-report-id: '&8report-'
-
-        ###REPORT###
-report-title: '&7&lReport ID: %report_id%'
-report-details: '&7Click to open report details'
-report-material-name: '&bReport id: %report_id%'
-labels: '&aLabels'
-priority: '&bPriority: %bug_priority%'
-set-solved: '&7Click to mark this report as solved'
-set-unsolved: '&7Click to mark this report as unsolved'
-bug-solved: '&aSolved'
-bug-unsolved: '&cUnsolved'
-
-        ###LABELS###
-label-title: '&8Labels'
 
 ##########BOOK##########
 first-page-bug-id: '&8Report ID: &2%report_id%'

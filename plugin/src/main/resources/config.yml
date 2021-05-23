@@ -3,27 +3,28 @@
 # There are three options: MYSQL, h2 or flatFile
 storage:
   type: h2
-  username:
-  password:
-  ip:
-  port:
-  database:
+  username: root
+  password: 123
+  ip: localhost
+  port: 7777
+  database: bugreport
 
 # Set the permission players need to use the report command. Leave as '' for no permission.
 use-permission: 'bugreport.report'
 
-#Time (inactive seconds) to wait before abandoning the player report conversation.
+# Time (inactive seconds) to wait before abandoning the player report conversation.
 time-out: 360
 
+# Add all the labels that reports can use.
 labels:
   - lag
   - redstone
-  - end
-  - nether
   - overworld
+  - nether
+  - end
 
-main-inventory:
-  title: "&7&lReport page: %page%"
+main-menu:
+  title: "&8&lReport page: %page%"
   items:
     reports:
       material: PAPER
@@ -39,13 +40,70 @@ main-inventory:
       name: '&7Next page'
       lore:
         - '&bClick here to go to page %next_page%'
-      glow: false
     previous-page:
       material: ARROW
       name: '&7Previous page'
       lore:
         - '&bClick here to go to page %previous_page%'
-      glow: false
-
-##########MENU##########
-report-item: 'PAPER'
+report-menu:
+  title: '&8&lReport ID: %report_id%'
+  items:
+    report:
+      material: PAPER
+      name: '&bReport id: %report_id%'
+      lore:
+        - '&7Click to open report details'
+    labels:
+      material: WRITTEN_BOOK
+      name: '&aLabels'
+      lore:
+        - '&7Click to open labels menu'
+    priority:
+      material: DIAMOND
+      name: '&bPriority: %bug_priority%'
+      lore: '&7Click to open priority menu'
+    solved:
+      material: EMERALD_BLOCK
+      name: '&aSolved'
+      lore:
+        - '&7Click to mark this report as unsolved'
+    unsolved:
+      material: REDSTONE_BLOCK
+      name: '&cUnsolved'
+      lore:
+        - '&7Click to mark this report as solved'
+priority-menu:
+  title: '&8Priority menu'
+  items:
+    1:
+      material: COAL
+      name: 'Set priority to 1'
+      lore:
+        - '&7Click to set priority to 1'
+    2:
+      material: IRON_INGOT
+      name: 'Set priority to 2'
+      lore:
+        - '&7Click to set priority to 2'
+    3:
+      material: GOLD_INGOT
+      name: 'Set priority to 3'
+      lore:
+        - '&7Click to set priority to 3'
+    4:
+      material: EMERALD
+      name: 'Set priority to 4'
+      lore:
+        - '&7Click to set priority to 4'
+    5:
+      material: DIAMOND
+      name: 'Set priority to 5'
+      lore:
+        - '&7Click to set priority to 5'
+labels-menu:
+  title: '&8Labels menu'
+  items:
+    labels:
+      material: PAPER
+      lore:
+        - '&7Click to add this label'
