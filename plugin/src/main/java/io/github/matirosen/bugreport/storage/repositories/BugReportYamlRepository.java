@@ -36,6 +36,7 @@ public class BugReportYamlRepository implements ObjectRepository<BugReport, Inte
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
         String playerName = configuration.getString("playerName");
         String reportMessage = configuration.getString("reportMessage");
+        List<String> labels = configuration.getStringList("labels");
         int priority = configuration.getInt("priority");
         long currentTimeMillis = configuration.getLong("time");
         boolean solved = configuration.getBoolean("solved");
@@ -43,6 +44,7 @@ public class BugReportYamlRepository implements ObjectRepository<BugReport, Inte
         BugReport bugReport = new BugReport(id, playerName, reportMessage, currentTimeMillis, false);
         bugReport.setPriority(priority);
         bugReport.setSolved(solved);
+        labels.forEach(bugReport::addLabel);
 
         return bugReport;
     }
@@ -77,6 +79,7 @@ public class BugReportYamlRepository implements ObjectRepository<BugReport, Inte
         config.set("id", bugReport.getId());
         config.set("playerName", bugReport.getPlayerName());
         config.set("reportMessage", bugReport.getReportMessage());
+        config.set("labels", bugReport.getLabels());
         config.set("priority", bugReport.getPriority());
         config.set("time", bugReport.getCurrentTimeMillis());
         config.set("solved", bugReport.isSolved());
