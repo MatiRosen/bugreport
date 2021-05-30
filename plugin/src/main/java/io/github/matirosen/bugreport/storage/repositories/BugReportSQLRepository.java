@@ -27,10 +27,9 @@ public class BugReportSQLRepository implements ObjectRepository<BugReport, Integ
 
     private final String SELECT_REPORT = "SELECT * FROM `report_table` WHERE id=?;";
     private final String INSERT_REPORT = "INSERT INTO `report_table` " +
-            "(id, player_name, report_message, time, priority, solved) VALUES (?, ?, ?, ?, ?, ?);";
+            "(id, player_name, report_message, time, priority, labels, solved) VALUES (?, ?, ?, ?, ?, ?, ?);";
     private final String UPDATE_REPORT = "UPDATE `report_table` SET player_name=?, report_message=?, time=?, priority=?, " +
-            "solved=? WHERE id=?;";
-
+            "labels=?, solved=? WHERE id=?;";
 
     @Override
     public void start(){
@@ -49,6 +48,10 @@ public class BugReportSQLRepository implements ObjectRepository<BugReport, Integ
                         resultSet.getString("report_message"), resultSet.getLong("time"), true);
                 bugReport.setPriority(resultSet.getInt("priority"));
                 bugReport.setSolved(resultSet.getBoolean("solved"));
+                for (String label : resultSet.getString("labels").split(",")){
+                    bugReport.addLabel(label);
+                }
+
             } else{
                 bugReport = null;
             }
@@ -89,8 +92,9 @@ public class BugReportSQLRepository implements ObjectRepository<BugReport, Integ
                 statement.setString(2, bugReport.getReportMessage());
                 statement.setLong(3, bugReport.getCurrentTimeMillis());
                 statement.setInt(4, bugReport.getPriority());
-                statement.setBoolean(5, bugReport.isSolved());
-                statement.setInt(6, bugReport.getId());
+                statement.setString(5, String.join(",", bugReport.getLabels()));
+                statement.setBoolean(6, bugReport.isSolved());
+                statement.setInt(7, bugReport.getId());
 
                 statement.executeUpdate();
             } catch (SQLException exception){
@@ -103,7 +107,8 @@ public class BugReportSQLRepository implements ObjectRepository<BugReport, Integ
                 statement.setString(3, bugReport.getReportMessage());
                 statement.setLong(4, bugReport.getCurrentTimeMillis());
                 statement.setInt(5, bugReport.getPriority());
-                statement.setBoolean(6, bugReport.isSolved());
+                statement.setString(6, String.join(",", bugReport.getLabels()));
+                statement.setBoolean(7, bugReport.isSolved());
 
                 statement.executeUpdate();
             } catch (SQLException exception){
