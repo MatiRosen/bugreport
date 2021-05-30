@@ -1,7 +1,6 @@
 prefix: '&a&l[&6&lBUG-REPORT&a&l]'
 
 ##########GENERAL##########
-
 help-command:
   - '&bUse &d/bug report &bto start a report.'
   - '&bUse &d/bug menu &bto open reports menu. &4(Needs permission!)'
@@ -21,7 +20,6 @@ bug-description: '&7This is your bug report description:'
 bug-confirmation: '&7Do you want to give more information? (Y/N)'
 write-y-n: '&7You should write "YES" or "NO"'
 report-completed: '&aThanks for reporting!'
-
 
 solved: '&aSolved'
 unsolved: '&cUnsolved'

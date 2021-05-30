@@ -26,12 +26,6 @@ public class HikariConnection implements DataConnection<Connection> {
             "`solved` SMALLINT NOT NULL DEFAULT 0," +
             "PRIMARY KEY (`id`));";
 
-    /*private final String LABEL_TABLE = "CREATE TABLE IF NOT EXISTS `label_table` (`report_id` INTEGER NOT NULL, " +
-            "`label` VARCHAR(30) NOT NULL, " +
-            "PRIMARY KEY (`report_id`, `label`), " +
-            "FOREIGN KEY (`report_id`) REFERENCES report_table(id));";*/
-
-
     @Override
     public Connection getConnection(){
         try{
@@ -71,7 +65,6 @@ public class HikariConnection implements DataConnection<Connection> {
         try {
             Connection connection = dataSource.getConnection();
             connection.createStatement().executeUpdate(REPORT_TABLE);
-            //connection.createStatement().executeUpdate(LABEL_TABLE); //TODO
         } catch (SQLException exception) {
             exception.printStackTrace();
         }

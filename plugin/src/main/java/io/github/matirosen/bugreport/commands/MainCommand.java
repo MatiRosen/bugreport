@@ -7,23 +7,21 @@ import io.github.matirosen.bugreport.guis.BugReportSecondMenu;
 import io.github.matirosen.bugreport.managers.BugReportManager;
 import io.github.matirosen.bugreport.reports.BugReport;
 import io.github.matirosen.bugreport.utils.Utils;
-import io.github.matirosen.bugreport.utils.MessageHandler;
 import io.github.matirosen.bugreport.storage.repositories.ObjectRepository;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 
-public class MainCommand implements CommandExecutor {
+public class MainCommand implements TabExecutor {
 
     @Inject
     private ReportPlugin plugin;
@@ -133,5 +131,31 @@ public class MainCommand implements CommandExecutor {
             return true;
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> tab = new ArrayList<>();
+        if (!(sender instanceof Player)) return tab;
+
+        if (sender.hasPermission("bugreport.get")) tab.add("get");
+
+        if (sender.hasPermission("bugreport.menu")) tab.add("menu");
+
+        if (sender.hasPermission("help")) tab.add("help");
+
+        FileConfiguration config = plugin.getConfig();
+        if (sender.hasPermission(config.getString("use-permission"))) tab.add("report");
+
+        if (args[0].equalsIgnoreCase("menu") || args[0].equalsIgnoreCase("help")
+                || args[0].equalsIgnoreCase("report") || (args[0].equalsIgnoreCase("get") && !sender.hasPermission("bugreport.get"))){
+            tab.clear();
+        } else if (args[0].equalsIgnoreCase("get") && sender.hasPermission("bugreport.get") && args[1].isEmpty()){
+            tab.clear();
+            int totalReports = Utils.totalReports - 1;
+            tab.add("[" + 1 + "-" + totalReports + "]");
+        }
+
+        return tab;
     }
 }
