@@ -7,7 +7,6 @@ import io.github.matirosen.bugreport.guis.BugReportSecondMenu;
 import io.github.matirosen.bugreport.managers.BugReportManager;
 import io.github.matirosen.bugreport.reports.BugReport;
 import io.github.matirosen.bugreport.utils.Utils;
-import io.github.matirosen.bugreport.storage.repositories.ObjectRepository;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -27,8 +26,6 @@ public class MainCommand implements TabExecutor {
     private ReportPlugin plugin;
     @Inject
     private BugReportManager bugReportManager;
-    @Inject
-    private ObjectRepository<BugReport, Integer> bugReportRepository;
 
     @Inject
     private BugReportMainMenu bugReportMainMenu;
@@ -58,7 +55,11 @@ public class MainCommand implements TabExecutor {
                 ReportPlugin.getMessageHandler().send(player, "no-permission");
                 return false;
             }
-            player.openInventory(bugReportMainMenu.build());
+            player.sendMessage("Loading reports...");
+            bugReportManager.getBugReportList(bugReportList ->
+                    Bukkit.getScheduler().runTask(plugin, () -> player.openInventory(bugReportMainMenu.build(bugReportList)))
+            );
+
             return true;
         }
 
@@ -83,21 +84,14 @@ public class MainCommand implements TabExecutor {
                 ReportPlugin.getMessageHandler().send(player, "no-permission");
                 return false;
             }
-            int count = Integer.parseInt(args[1]);
 
-            BugReport bugReport = bugReportManager.getBugReportById(count);
-
-            if (bugReport != null){
-                player.openInventory(bugReportSecondMenu.build(bugReport));
-                return true;
-            }
-
-            bugReportRepository.loadAsync(count, report -> {
-                if (report == null){
+            int id = Integer.parseInt(args[1]);
+            bugReportManager.getBugReportById(id, bugReport -> {
+                if (bugReport == null){
                     ReportPlugin.getMessageHandler().send(player, "not-find-report");
                     return;
                 }
-                player.openInventory(bugReportSecondMenu.build(report));
+                Bukkit.getScheduler().runTask(plugin, () -> player.openInventory(bugReportSecondMenu.build(bugReport)));
             });
             return true;
         }
@@ -138,20 +132,18 @@ public class MainCommand implements TabExecutor {
         List<String> tab = new ArrayList<>();
         if (!(sender instanceof Player)) return tab;
 
-        if (sender.hasPermission("bugreport.get")) tab.add("get");
+        if (args.length < 2){
+            if (sender.hasPermission("bugreport.get")) tab.add("get");
 
-        if (sender.hasPermission("bugreport.menu")) tab.add("menu");
+            if (sender.hasPermission("bugreport.menu")) tab.add("menu");
 
-        if (sender.hasPermission("help")) tab.add("help");
+            if (sender.hasPermission("help")) tab.add("help");
 
-        FileConfiguration config = plugin.getConfig();
-        if (sender.hasPermission(config.getString("use-permission"))) tab.add("report");
+            FileConfiguration config = plugin.getConfig();
+            if (sender.hasPermission(config.getString("use-permission"))) tab.add("report");
+        }
 
-        if (args[0].equalsIgnoreCase("menu") || args[0].equalsIgnoreCase("help")
-                || args[0].equalsIgnoreCase("report") || (args[0].equalsIgnoreCase("get") && !sender.hasPermission("bugreport.get"))){
-            tab.clear();
-        } else if (args[0].equalsIgnoreCase("get") && sender.hasPermission("bugreport.get") && args[1].isEmpty()){
-            tab.clear();
+        if (args[0].equalsIgnoreCase("get") && sender.hasPermission("bugreport.get") && (args.length == 2 && args[1].isEmpty())){
             int totalReports = Utils.totalReports - 1;
             tab.add("[" + 1 + "-" + totalReports + "]");
         }

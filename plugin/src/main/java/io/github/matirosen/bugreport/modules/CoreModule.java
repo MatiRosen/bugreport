@@ -2,6 +2,9 @@ package io.github.matirosen.bugreport.modules;
 
 import io.github.matirosen.bugreport.ReportPlugin;
 import io.github.matirosen.bugreport.guis.*;
+import io.github.matirosen.bugreport.guis.filters.LabelsFilterMenu;
+import io.github.matirosen.bugreport.guis.filters.PriorityFilterMenu;
+import io.github.matirosen.bugreport.guis.filters.SolvedFilterMenu;
 import io.github.matirosen.bugreport.reports.BookReport;
 import io.github.matirosen.bugreport.reports.BookReportFactory;
 import io.github.matirosen.bugreport.managers.BugReportManager;
@@ -33,6 +36,9 @@ public class CoreModule implements Module {
         binder.bind(BugReportSecondMenu.class).singleton();
         binder.bind(PriorityMenu.class).singleton();
         binder.bind(LabelsMenu.class).singleton();
+        binder.bind(PriorityFilterMenu.class).singleton();
+        binder.bind(SolvedFilterMenu.class).singleton();
+        binder.bind(LabelsFilterMenu.class).singleton();
 
         binder.bind(BookReport.class).toFactory(BookReportFactory.class);
 

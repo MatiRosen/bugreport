@@ -71,22 +71,8 @@ public class LabelsMenu {
                             return true;
                         })
                         .build())
-                .setNextPageItem(ItemClickable.builder(50)
-                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("labels-menu.items.next-page.material")))
-                                .setName(Utils.format(config.getString("labels-menu.items.next-page.name")))
-                                .setLore(Utils.format(config.getStringList("labels-menu.items.next-page.lore")))
-                                .build()
-                        )
-                        .build()
-                )
-                .setPreviousPageItem(ItemClickable.builder(48)
-                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("labels-menu.items.previous-page.material")))
-                                .setName(config.getString("labels-menu.items.previous-page.name"))
-                                .setLore(config.getStringList("labels-menu.items.previous-page.lore"))
-                                .build()
-                        )
-                        .build()
-                )
+                .setNextPageItem(Utils.getChangePageItem(plugin, "labels-menu.items.", "next"))
+                .setPreviousPageItem(Utils.getChangePageItem(plugin, "labels-menu.items.", "previous"))
                 .build();
     }
 

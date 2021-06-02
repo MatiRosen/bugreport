@@ -14,8 +14,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class BugReportYamlRepository implements ObjectRepository<BugReport, Integer>{
+public class BugReportYamlRepository implements ObjectRepository<BugReport, Integer> {
 
     @Inject
     private FileManager fileManager;
@@ -24,7 +25,7 @@ public class BugReportYamlRepository implements ObjectRepository<BugReport, Inte
 
     @Override
     public void start(){
-
+        System.out.println("xd");
     }
 
     @Override
@@ -52,6 +53,9 @@ public class BugReportYamlRepository implements ObjectRepository<BugReport, Inte
     @Override
     public List<BugReport> loadAll() {
         List<BugReport> bugReportList = new ArrayList<>();
+
+        System.out.println("utils" + Utils.totalReports);
+        System.out.println("files" + Objects.requireNonNull(fileManager.getReportsFolder().list()).length);
         int counter = Utils.totalReports;
         int goal = Utils.totalReports - 500;
 
@@ -112,5 +116,10 @@ public class BugReportYamlRepository implements ObjectRepository<BugReport, Inte
             BugReport bugReport = load(id);
             callback.call(bugReport);
         });
+    }
+
+    @Override
+    public void loadAllAsync(Callback<List<BugReport>> callback){
+
     }
 }

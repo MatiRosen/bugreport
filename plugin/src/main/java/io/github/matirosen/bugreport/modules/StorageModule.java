@@ -15,15 +15,12 @@ public class StorageModule implements Module {
     @Override
     public void configure(Binder binder){
         String storageType = reportPlugin.getConfig().getString("storage.type");
-        storageType = storageType == null ? "flatFile" : storageType;
+        storageType = storageType == null ? "h2" : storageType;
 
-
-        if (storageType.equalsIgnoreCase("mongoDB")){
-            binder.install(new MongoDbDataModule());
-        } else if (storageType.equalsIgnoreCase("MySQL")){
+        if (storageType.equalsIgnoreCase("MySQL")){
             binder.install(new MySQLDataModule());
-        } else if (storageType.equalsIgnoreCase("h2")){
-            binder.install(new H2DataModule());
-        } else binder.install(new YamlDataModule());
+        } else if (storageType.equalsIgnoreCase("flatFile")){
+            binder.install(new YamlDataModule());
+        } else binder.install(new H2DataModule());;
     }
 }

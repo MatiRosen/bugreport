@@ -3,15 +3,11 @@ package io.github.matirosen.bugreport.storage.repositories;
 import io.github.matirosen.bugreport.reports.BugReport;
 import io.github.matirosen.bugreport.storage.Callback;
 import io.github.matirosen.bugreport.storage.DataConnection;
-import io.github.matirosen.bugreport.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.inject.Inject;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,19 +62,28 @@ public class BugReportSQLRepository implements ObjectRepository<BugReport, Integ
     @Override
     public List<BugReport> loadAll() {
         List<BugReport> bugReportList = new ArrayList<>();
-        int counter = Utils.totalReports;
-        int goal = Utils.totalReports - 500;
+        String query = "select count(*) from `report_table`";
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            rs.next();
+            int counter = rs.getInt(1) + 1;
+            int goal = counter - 500;
 
-        while (counter > goal){
-            if (counter == 0) break;
-            BugReport bugReport = load(counter);
-            counter--;
+            while (counter > goal){
+                if (counter == 0) break;
+                BugReport bugReport = load(counter);
+                counter--;
 
-            if (bugReport == null) {
-                goal--;
-                continue;
+                if (bugReport == null) {
+                    goal--;
+                    continue;
+                }
+                bugReportList.add(bugReport);
             }
-            bugReportList.add(bugReport);
+
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
         return bugReportList;
@@ -135,6 +140,14 @@ public class BugReportSQLRepository implements ObjectRepository<BugReport, Integ
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             BugReport bugReport = load(id);
             callback.call(bugReport);
+        });
+    }
+
+    @Override
+    public void loadAllAsync(Callback<List<BugReport>> callback){
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            List<BugReport> bugReportList = loadAll();
+            callback.call(bugReportList);
         });
     }
 

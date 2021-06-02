@@ -13,4 +13,5 @@ public interface ObjectRepository<T,I> {
 
     void saveAsync(T id, Callback<T> callback);
     void loadAsync(I id, Callback<T> callback);
+    void loadAllAsync(Callback<List<T>> callback);
 }

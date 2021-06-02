@@ -105,7 +105,7 @@ public class BugReportSecondMenu {
                                 .build())
                         .setAction(event -> {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
-                            event.getWhoClicked().openInventory(bugReportMainMenu.build());
+                           // event.getWhoClicked().openInventory(bugReportMainMenu.build());
                             return true;
                         })
                         .build())

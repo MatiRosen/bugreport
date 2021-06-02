@@ -35,6 +35,24 @@ main-menu:
         - '&7Priority: %priority%'
         - '&b%labels%'
       glow: false
+    label-filter:
+      material: WATCH
+      name: '&8Open label filter menu'
+      lore:
+        - ''
+        - '&7Click here to go to label filter menu'
+    priority-filter:
+      material: DIAMOND
+      name: '&bOpen priority filter menu'
+      lore:
+        - ''
+        - '&7Click here to go to priority filter menu'
+    solved-filter:
+      material: EMERALD
+      name: '&bOpen solved filter menu'
+      lore:
+        - ''
+        - '&7Click here to go to solved filter menu'
     next-page:
       material: ARROW
       name: '&7Next page'
@@ -137,3 +155,64 @@ labels-menu:
       name: '&7Previous page'
       lore:
         - '&bClick to go to page %previous_page%'
+filters-menu:
+  priority:
+    title: '&8Priority filter menu'
+    items:
+      1:
+        material: COAL
+        name: '&bFilter by priority 1'
+        lore:
+          - '&7Click to filter by priority 1'
+      2:
+        material: IRON_INGOT
+        name: '&bFilter by priority 2'
+        lore:
+          - '&7Click to filter by priority 2'
+      3:
+        material: GOLD_INGOT
+        name: '&bFilter by priority 3'
+        lore:
+          - '&7Click to filter by priority 3'
+      4:
+        material: EMERALD
+        name: '&bFilter by priority 4'
+        lore:
+          - '&7Click to filter by priority 4'
+      5:
+        material: DIAMOND
+        name: '&bFilter by priority 5'
+        lore:
+          - '&7Click to filter by priority 5'
+  solved:
+    title: '&8Solved filter menu'
+    items:
+      solved:
+        material: EMERALD_BLOCK
+        name: '&aFilter by solved'
+        lore:
+          - '&7Click to filter by solved'
+      unsolved:
+        material: REDSTONE_BLOCK
+        name: '&cFilter by unsolved'
+        lore:
+          - '&7Click to filter by unsolved'
+  labels:
+    title: '&8Labels filter menu'
+    items:
+      label:
+        material: PAPER
+        name: '&bFilter by label %label%'
+        lore:
+          - ''
+          - '&7Click to filter by %label% label'
+        next-page:
+          material: ARROW
+          name: '&7Next page'
+          lore:
+            - '&bClick to go to page %next_page%'
+        previous-page:
+          material: ARROW
+          name: '&7Previous page'
+          lore:
+            - '&bClick to go to page %previous_page%'
