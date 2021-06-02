@@ -55,11 +55,14 @@ public class BugReportMainMenu {
             List<String> lore = new ArrayList<>();
             String labels = bugReport.getLabels().toString().replace("[", "").replace("]", "");
 
+            if (labels.length() > 2) labels = labels.substring(2);
+
             lore.add(Utils.format("&7" + bugReport.getId()));
+            String finalLabels = labels;
             reportLore.forEach(s ->
                     lore.add(s.replace("%solved%", bugReport.isSolved() ? solved : unsolved)
                         .replace("%priority%", bugReport.getPriority() + "")
-                        .replace("%labels%", labels)));
+                        .replace("%labels%", finalLabels)));
 
             entities.add(new CustomGuiItem(Material.valueOf(config.getString("main-menu.items.reports.material")), 1)
                     .displayName(Utils.format(config.getString("main-menu.items.reports.name").replace("%report_id%",
@@ -95,6 +98,7 @@ public class BugReportMainMenu {
                         .build())
                 .addItem(getFilterItem("priority", 45, bugReportList))
                 .addItem(getFilterItem("solved", 46, bugReportList))
+                .addItem(getFilterItem("label", 47, bugReportList))
                 .setNextPageItem(Utils.getChangePageItem(reportPlugin, "main-menu.items.", "next"))
                 .setPreviousPageItem(Utils.getChangePageItem(reportPlugin, "main-menu.items.","previous"))
                 .build();

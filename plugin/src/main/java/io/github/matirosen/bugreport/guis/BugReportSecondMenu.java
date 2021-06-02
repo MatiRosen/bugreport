@@ -6,6 +6,7 @@ import io.github.matirosen.bugreport.reports.BookReport;
 import io.github.matirosen.bugreport.reports.BookReportFactory;
 import io.github.matirosen.bugreport.reports.BugReport;
 import io.github.matirosen.bugreport.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -105,7 +106,10 @@ public class BugReportSecondMenu {
                                 .build())
                         .setAction(event -> {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
-                           // event.getWhoClicked().openInventory(bugReportMainMenu.build());
+                            bugReportManager.getBugReportList(bugReportList -> {
+                                Bukkit.getScheduler().runTask(plugin, () ->
+                                        event.getWhoClicked().openInventory(bugReportMainMenu.build(bugReportList)));
+                            });
                             return true;
                         })
                         .build())

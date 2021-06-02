@@ -12,6 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import team.unnamed.gui.abstraction.item.ItemClickable;
 import team.unnamed.gui.core.gui.type.GUIBuilder;
+import team.unnamed.gui.core.item.type.ItemBuilder;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -32,8 +33,11 @@ public class LabelsFilterMenu {
         List<ItemStack> entities = new ArrayList<>();
 
         for (String label : config.getStringList("labels")){
-            entities.add(getLabelItem(label));
+            entities.add(getLabelItem(label, false));
         }
+
+        String backItem = "filters-menu.labels.items.back.";
+        List<String> labels = new ArrayList<>();
 
         return GUIBuilder.builderPaginated(ItemStack.class, Utils.format(config.getString("filters-menu.labels.title")))
                 .setBounds(0, 45)
@@ -44,8 +48,26 @@ public class LabelsFilterMenu {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
                             String label = item.getItemMeta().getLore().get(0);
 
+                            event.setCancelled(true);
+                            event.setCurrentItem(getLabelItem(label, !labels.contains(label)));
+                            if (!labels.contains(label)){
+                                labels.add(label);
+                            } else{
+                                labels.remove(label);
+                            }
+                            return true;
+                        })
+                        .build())
+                .addItem(ItemClickable.builder(49)
+                        .setItemStack(ItemBuilder
+                                .newBuilder(Material.valueOf(config.getString(backItem + "material")))
+                                .setName(Utils.format(backItem + "name"))
+                                .setLore(Arrays.asList(Utils.format(config.getStringList(backItem + "lore"))))
+                                .build())
+                        .setAction(event -> {
+                            if (!(event.getWhoClicked() instanceof Player)) return false;
                             List<BugReport> filteredList = bugReportList.stream().filter(bugReport ->
-                                    bugReport.getLabels().contains(label)).collect(Collectors.toList());
+                                    bugReport.getLabels().containsAll(labels)).collect(Collectors.toList());
 
                             event.getWhoClicked().openInventory(bugReportMainMenu.build(filteredList));
                             event.setCancelled(true);
@@ -57,7 +79,7 @@ public class LabelsFilterMenu {
                 .build();
     }
 
-    private ItemStack getLabelItem(String label){
+    private ItemStack getLabelItem(String label, boolean isSelected){
         FileConfiguration config = plugin.getConfig();
 
         Material material = Material.valueOf(config.getString("filters-menu.labels.items.label.material"));
@@ -69,6 +91,7 @@ public class LabelsFilterMenu {
         return new CustomGuiItem(material, 1)
                 .displayName(name)
                 .lore(lore)
+                .glow(isSelected)
                 .create();
     }
 }
