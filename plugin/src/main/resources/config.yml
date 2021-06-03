@@ -18,6 +18,16 @@ language: en
 # Time (inactive seconds) to wait before abandoning the player report conversation.
 time-out: 360
 
+# Word to cancel a bug report.
+cancel-word: "cancel"
+
+# Word to finish a bug report.
+done-word: "done"
+
+# Words to confirm bug report
+yes-word: "yes"
+no-word: "no"
+
 # Add all the labels that reports can use.
 labels:
   - lag

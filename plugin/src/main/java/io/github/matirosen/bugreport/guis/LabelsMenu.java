@@ -6,12 +6,10 @@ import io.github.matirosen.bugreport.reports.BugReport;
 import io.github.matirosen.bugreport.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import team.unnamed.gui.abstraction.item.ItemClickable;
 import team.unnamed.gui.core.gui.type.GUIBuilder;
-import team.unnamed.gui.core.item.type.ItemBuilder;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

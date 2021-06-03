@@ -5,7 +5,7 @@ help-command:
   - '&bUse &d/bug report &bto start a report.'
   - '&bUse &d/bug menu &bto open reports menu. &4(Needs permission!)'
   - '&bUse &d/bug get [number] to obtain a specific report. &4(Needs permission!)'
-use-help: '&bUse &d/help &bto see commands'
+use-help: '&bUse &d/bug help &bto see commands'
 no-permission: '%prefix% &cYou do not have permission to do that!'
 not-find-report: '%prefix% &cThe report could not be found.'
 not-number: '%prefix% &cYou should write a number'
@@ -13,14 +13,14 @@ already-doing-report: '%prefix% &cYou should end your actual report before doing
 plugin-reloaded: '%prefix% &aPlugin reloaded.'
 
 ##########REPORT##########
-cancel-any-time: '%prefix% &7You can cancel any time by writing "&ccancel&7"'
+cancel-any-time: '%prefix% &7You can cancel any time by writing "&c%cancel%&7"'
 report-cancelled: '%prefix% &7Bug report canceled'
 give-bug-information: '&7Write information about the bug you want to report'
-finish-message-report: '&7If you finished describing the bug, please write &b"done"&7. Else, continue writing.'
+finish-message-report: '&7If you finished describing the bug, please write &b"%done%"&7. Else, continue writing.'
 bug-information-cancelled: '&7Bug report canceled'
 bug-description: '&7This is your bug report description:'
-bug-confirmation: '&7Do you want to give more information? (Y/N)'
-write-y-n: '&7You should write "YES" or "NO"'
+bug-confirmation: '&7Do you want to give more information? (%yes%/%no%)'
+write-y-n: '&7You should write "%yes%" or "%no%"'
 report-completed: '&aThanks for reporting!'
 
 solved: '&aSolved'

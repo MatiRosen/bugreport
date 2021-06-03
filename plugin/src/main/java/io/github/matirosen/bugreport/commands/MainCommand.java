@@ -47,6 +47,12 @@ public class MainCommand implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (sender instanceof ConsoleCommandSender) {
+            if (args.length >= 1 && args[0].equalsIgnoreCase("reload")){
+                plugin.reloadConfig();
+                fileManager.loadAllFileConfigurations();
+                System.out.println(Utils.format("&a[Bug-Report] plugin reloaded!"));
+                return true;
+            }
             Bukkit.getLogger().log(Level.INFO, Utils.format("&cBug command can only be executed in-game!"));
             return false;
         }
@@ -71,13 +77,13 @@ public class MainCommand implements TabExecutor {
 
         if (args.length >= 1 && args[0].equalsIgnoreCase("report")){
             FileConfiguration config = plugin.getConfig();
-            if (!player.hasPermission(config.getString("use-permission"))){
+            if (!player.hasPermission(config.getString("use-permission")) && !config.getString("use-permission").isEmpty()){
                 ReportPlugin.getMessageHandler().send(player, "no-permission");
                 return false;
             }
             ConversationFactory cf = new ConversationFactory(plugin);
             Conversation conversation = cf
-                    .withFirstPrompt(new BugReportPrompt("", false, bugReportManager, bugReportRepository.getTotalReports()))
+                    .withFirstPrompt(new BugReportPrompt(config,"", false, bugReportManager, bugReportRepository.getTotalReports()))
                     .withLocalEcho(false)
                     .withTimeout(config.getInt("time-out"))
                     .buildConversation(player);
@@ -122,8 +128,8 @@ public class MainCommand implements TabExecutor {
                 ReportPlugin.getMessageHandler().send(player, "no-permission");
                 return false;
             }
-            fileManager.loadAllFileConfigurations();
             plugin.reloadConfig();
+            fileManager.loadAllFileConfigurations();
             ReportPlugin.getMessageHandler().send(player, "plugin-reloaded");
             return true;
         }
@@ -166,7 +172,7 @@ public class MainCommand implements TabExecutor {
             if (sender.hasPermission("bugreport.reload")) tab.add("reload");
 
             FileConfiguration config = plugin.getConfig();
-            if (sender.hasPermission(config.getString("use-permission"))) tab.add("report");
+            if (sender.hasPermission(config.getString("use-permission")) || config.getString("use-permission").isEmpty()) tab.add("report");
         }
 
         if (args[0].equalsIgnoreCase("get") && sender.hasPermission("bugreport.get") && (args.length == 2 && args[1].isEmpty())){

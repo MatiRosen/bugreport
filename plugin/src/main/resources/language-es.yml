@@ -1,0 +1,38 @@
+prefix: '&a&l[&6&lBUG-REPORT&a&l]'
+
+##########GENERAL##########
+help-command:
+  - '&bUsa &d/bug report &bpara comenzar un reporte.'
+  - '&bUsa &d/bug menu &bpara abrir el menu de reports. &4(Necesitas permiso!)'
+  - '&bUsa &d/bug get [numero] para obtener un reporte. &4(Necesitas permiso!)'
+use-help: '&bUsa &d/bug help &bpara ver todos los comandos'
+no-permission: '%prefix% &cNo tienes permiso para hacer eso!'
+not-find-report: '%prefix% &cNo se pudo encontrar el reporte.'
+not-number: '%prefix% &cDebes escribir un numero!'
+already-doing-report: '%prefix% &cDebes terminar de escribir tu reporte actual para usar otro comando!'
+plugin-reloaded: '%prefix% &aPlugin recargado.'
+
+##########REPORT##########
+cancel-any-time: '%prefix% &7Podés cancelar en cualquier momento escribiendo "&c%cancel%&7"'
+report-cancelled: '%prefix% &7Reporte cancelado'
+give-bug-information: '&7Escribe información sobre el bug que deseas reportar.'
+finish-message-report: '&7Si terminaste de describir el bug, escribe &b"%done%"&7. Sino, continua agregando información.'
+bug-information-cancelled: '&cReporte de bug cancelado'
+bug-description: '&7Este es tu reporte:'
+bug-confirmation: '&7Quieres dar más información? (%yes%/%no%)'
+write-y-n: '&7Debes escribir "%yes%" o "%no%"'
+report-completed: '&aGracias por el reporte!'
+
+solved: '&aResuelto'
+unsolved: '&cSin resolver'
+
+##########BOOK##########
+first-page-bug-id: '&8ID del reporte: &2%report_id%'
+first-page-player: '&8- Reportado por: &2%player_name%'
+first-page-date: '&8- Fecha: &2%report_date%'
+first-page-priority: '&8- Prioridad: &2%report_priority%'
+first-page-bug-status: '&8- Estado: %bug_solved%'
+first-page-solved: '&2Resuelto'
+first-page-unsolved: '&4Sin resolver'
+
+second-page-report-message: '&8- Reporte: &2%report_message%'
