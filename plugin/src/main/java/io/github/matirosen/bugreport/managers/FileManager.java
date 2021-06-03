@@ -1,11 +1,13 @@
 package io.github.matirosen.bugreport.managers;
 
+import io.github.matirosen.bugreport.utils.Utils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.inject.Inject;
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -25,7 +27,24 @@ public class FileManager {
 
         configurationMap.clear();
         configurationMap.put("config", loadFileConfiguration("config.yml", plugin.getDataFolder()));
-        configurationMap.put("language", loadFileConfiguration("language.yml", plugin.getDataFolder()));
+
+        String lang = "language-" + plugin.getConfig().getString("language") + ".yml";
+        try{
+            configurationMap.put("language", loadFileConfiguration(lang, plugin.getDataFolder()));
+        } catch (NullPointerException exception){
+            System.out.println(Utils.format("&c[Bug-Report] Language file not found. Using language-en.yml"));
+            configurationMap.put("language", loadFileConfiguration("language-en.yml", plugin.getDataFolder()));
+
+            delete(lang, plugin.getDataFolder());
+        }
+    }
+
+    public void delete(String name, File folder){
+        File file = new File(folder, name);
+
+        if (file.exists()){
+            file.deleteOnExit();
+        }
     }
 
     public FileConfiguration get(String name){

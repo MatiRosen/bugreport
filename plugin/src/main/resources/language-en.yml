@@ -8,7 +8,9 @@ help-command:
 use-help: '&bUse &d/help &bto see commands'
 no-permission: '%prefix% &cYou do not have permission to do that!'
 not-find-report: '%prefix% &cThe report could not be found.'
+not-number: '%prefix% &cYou should write a number'
 already-doing-report: '%prefix% &cYou should end your actual report before doing another command!'
+plugin-reloaded: '%prefix% &aPlugin reloaded.'
 
 ##########REPORT##########
 cancel-any-time: '%prefix% &7You can cancel any time by writing "&ccancel&7"'

@@ -8,3 +8,12 @@ prefix: Bug-Report
 commands:
   bug:
     description: Main command
+permissions:
+  bugreport.menu:
+    description: Permission to open menu
+  bugreport.get:
+    description: Permission to get a single report
+  bugreport.help:
+    description: Permission to get help
+  bugreport.reload:
+    description: Permission to reload plugin

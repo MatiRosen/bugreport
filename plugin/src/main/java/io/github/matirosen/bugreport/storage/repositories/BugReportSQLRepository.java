@@ -66,7 +66,7 @@ public class BugReportSQLRepository implements ObjectRepository<BugReport, Integ
     }
 
     @Override
-    public void save(BugReport bugReport) {
+    public void save(BugReport bugReport){
         if (bugReport.exists()){
             try(PreparedStatement statement = connection.prepareStatement(UPDATE_REPORT)){
                 statement.setString(1, bugReport.getPlayerName());
@@ -114,7 +114,7 @@ public class BugReportSQLRepository implements ObjectRepository<BugReport, Integ
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Integer id){
 
     }
 }

@@ -46,7 +46,6 @@ public class ReportPlugin extends JavaPlugin {
     }
 
     public void onDisable(){
-        bugReportManager.stop();
         connection.disconnect();
     }
 

@@ -1,6 +1,6 @@
 # Storage Section
 # Here you can specify where to save the surveys results
-# There are three options: MYSQL, h2 or flatFile
+# There are three options: MYSQL, h2 or flatFile (YAML)
 storage:
   type: h2
   username: root
@@ -11,6 +11,9 @@ storage:
 
 # Set the permission players need to use the report command. Leave as '' for no permission.
 use-permission: 'bugreport.report'
+
+# Set language of plugin. If you create a new YML, it should be called "language-(your language).yml". For example, "language-ru.yml". Then write "ru" here.
+language: en
 
 # Time (inactive seconds) to wait before abandoning the player report conversation.
 time-out: 360
@@ -57,12 +60,12 @@ main-menu:
       material: ARROW
       name: '&7Next page'
       lore:
-        - '&bClick here to go to page %next_page%'
+        - '&bClick here to go to next page'
     previous-page:
       material: ARROW
       name: '&7Previous page'
       lore:
-        - '&bClick here to go to page %previous_page%'
+        - '&bClick here to go to previous page'
 report-menu:
   title: '&8&lReport ID: %report_id%'
   items:

@@ -5,6 +5,7 @@ import io.github.matirosen.bugreport.conversations.BugReportPrompt;
 import io.github.matirosen.bugreport.guis.BugReportMainMenu;
 import io.github.matirosen.bugreport.guis.BugReportSecondMenu;
 import io.github.matirosen.bugreport.managers.BugReportManager;
+import io.github.matirosen.bugreport.managers.FileManager;
 import io.github.matirosen.bugreport.reports.BugReport;
 import io.github.matirosen.bugreport.storage.repositories.ObjectRepository;
 import io.github.matirosen.bugreport.utils.Utils;
@@ -34,6 +35,8 @@ public class MainCommand implements TabExecutor {
     private BugReportSecondMenu bugReportSecondMenu;
     @Inject
     private ObjectRepository<BugReport, Integer> bugReportRepository;
+    @Inject
+    private FileManager fileManager;
 
 
     @Inject
@@ -87,8 +90,14 @@ public class MainCommand implements TabExecutor {
                 ReportPlugin.getMessageHandler().send(player, "no-permission");
                 return false;
             }
+            int id = 0;
+            try {
+                id = Integer.parseInt(args[1]);
+            } catch (NumberFormatException exception){
+                ReportPlugin.getMessageHandler().send(player, "not-number");
+                return false;
+            }
 
-            int id = Integer.parseInt(args[1]);
             bugReportManager.getBugReportById(id, bugReport -> {
                 if (bugReport == null){
                     ReportPlugin.getMessageHandler().send(player, "not-find-report");
@@ -105,6 +114,17 @@ public class MainCommand implements TabExecutor {
                 return false;
             }
             ReportPlugin.getMessageHandler().sendList(player, "help-command");
+            return true;
+        }
+
+        if (args.length >= 1 && args[0].equalsIgnoreCase("reload")){
+            if (!player.hasPermission("bugreport.reload")){
+                ReportPlugin.getMessageHandler().send(player, "no-permission");
+                return false;
+            }
+            fileManager.loadAllFileConfigurations();
+            plugin.reloadConfig();
+            ReportPlugin.getMessageHandler().send(player, "plugin-reloaded");
             return true;
         }
 
@@ -141,7 +161,9 @@ public class MainCommand implements TabExecutor {
 
             if (sender.hasPermission("bugreport.menu")) tab.add("menu");
 
-            if (sender.hasPermission("help")) tab.add("help");
+            if (sender.hasPermission("bugreport.help")) tab.add("help");
+
+            if (sender.hasPermission("bugreport.reload")) tab.add("reload");
 
             FileConfiguration config = plugin.getConfig();
             if (sender.hasPermission(config.getString("use-permission"))) tab.add("report");
