@@ -59,7 +59,6 @@ public class BugReportManager {
         });
     }
 
-
     public void start(){
         bugReportRepository.start();
     }

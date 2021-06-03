@@ -68,6 +68,7 @@ public class LabelsMenu {
                         .setAction(event -> {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
                             event.getWhoClicked().openInventory(bugReportSecondMenu.build(bugReport));
+                            event.setCancelled(true);
                             return true;
                         })
                         .build())

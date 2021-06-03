@@ -13,6 +13,8 @@ import team.unnamed.gui.core.gui.type.GUIBuilder;
 import team.unnamed.gui.core.item.type.ItemBuilder;
 
 import javax.inject.Inject;
+import java.util.Arrays;
+import java.util.List;
 
 public class PriorityMenu {
 
@@ -27,80 +29,37 @@ public class PriorityMenu {
         FileConfiguration config = plugin.getConfig();
 
         return GUIBuilder.builder(Utils.format(config.getString("priority-menu.title")), 1)
-                .addItem(ItemClickable.builder(0)
-                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("priority-menu.items.1.material")))
-                                .setName(Utils.format(config.getString("priority-menu.items.1.name")))
-                                .setLore(Utils.format(config.getStringList("priority-menu.items.1.lore")))
-                                .build())
-                        .setAction(event -> {
-                            if (!(event.getWhoClicked() instanceof Player)) return false;
+                .addItem(getItemClickable(bugReport, 1))
+                .addItem(getItemClickable(bugReport, 2))
+                .addItem(getItemClickable(bugReport, 3))
+                .addItem(getItemClickable(bugReport, 4))
+                .addItem(getItemClickable(bugReport, 5))
+                .build();
+    }
 
-                            bugReport.setPriority(1);
-                            bugReport.setExist(true);
-                            bugReportManager.saveReport(bugReport);
-                            event.getWhoClicked().openInventory(bugReportSecondMenu.build(bugReport));
-                            return true;
-                        })
-                        .build())
-                .addItem(ItemClickable.builder(1)
-                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("priority-menu.items.2.material")))
-                                .setName(Utils.format(config.getString("priority-menu.items.2.name")))
-                                .setLore(Utils.format(config.getStringList("priority-menu.items.2.lore")))
-                                .build())
-                        .setAction(event -> {
-                            if (!(event.getWhoClicked() instanceof Player)) return false;
-                            bugReport.setPriority(2);
-                            bugReport.setExist(true);
-                            bugReportManager.saveReport(bugReport);
-                            event.getWhoClicked().openInventory(bugReportSecondMenu.build(bugReport));
-                            return true;
-                        })
-                        .build())
-                .addItem(ItemClickable.builder(2)
-                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("priority-menu.items.3.material")))
-                                .setName(Utils.format(config.getString("priority-menu.items.3.name")))
-                                .setLore(Utils.format(config.getStringList("priority-menu.items.3.lore")))
-                                .build())
-                        .setAction(event -> {
-                            if (!(event.getWhoClicked() instanceof Player)) return false;
+    private ItemClickable getItemClickable(BugReport bugReport, int priority){
+        FileConfiguration config = plugin.getConfig();
+        String key = "priority-menu.items." + priority + ".";
 
-                            bugReport.setPriority(3);
-                            bugReport.setExist(true);
-                            bugReportManager.saveReport(bugReport);
-                            event.getWhoClicked().openInventory(bugReportSecondMenu.build(bugReport));
-                            return true;
-                        })
-                        .build())
-                .addItem(ItemClickable.builder(3)
-                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("priority-menu.items.4.material")))
-                                .setName(Utils.format(config.getString("priority-menu.items.4.name")))
-                                .setLore(Utils.format(config.getStringList("priority-menu.items.4.lore")))
-                                .build())
-                        .setAction(event -> {
-                            if (!(event.getWhoClicked() instanceof Player)) return false;
+        Material material = Material.valueOf(config.getString(key + "material"));
+        String name = Utils.format(config.getString(key + "name"));
+        List<String> lore = Arrays.asList(Utils.format(config.getStringList(key + "lore")));
 
-                            bugReport.setPriority(4);
-                            bugReport.setExist(true);
-                            bugReportManager.saveReport(bugReport);
-                            event.getWhoClicked().openInventory(bugReportSecondMenu.build(bugReport));
-                            return true;
-                        })
+        return ItemClickable.builder(priority - 1)
+                .setItemStack(ItemBuilder.newBuilder(material)
+                        .setName(name)
+                        .setLore(lore)
                         .build())
-                .addItem(ItemClickable.builder(4)
-                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("priority-menu.items.5.material")))
-                                .setName(Utils.format(config.getString("priority-menu.items.5.name")))
-                                .setLore(Utils.format(config.getStringList("priority-menu.items.5.lore")))
-                                .build())
-                        .setAction(event -> {
-                            if (!(event.getWhoClicked() instanceof Player)) return false;
+                .setAction(event -> {
+                    if (!(event.getWhoClicked() instanceof Player)) return false;
 
-                            bugReport.setPriority(5);
-                            bugReport.setExist(true);
-                            bugReportManager.saveReport(bugReport);
-                            event.getWhoClicked().openInventory(bugReportSecondMenu.build(bugReport));
-                            return true;
-                        })
-                        .build())
+                    bugReport.setPriority(priority);
+                    bugReport.setExist(true);
+                    bugReportManager.saveReport(bugReport);
+                    event.getWhoClicked().openInventory(bugReportSecondMenu.build(bugReport));
+                    event.setCancelled(true);
+                    return true;
+                })
                 .build();
     }
 }

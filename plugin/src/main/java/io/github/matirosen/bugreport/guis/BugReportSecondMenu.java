@@ -39,7 +39,6 @@ public class BugReportSecondMenu {
     public Inventory build(BugReport bugReport){
         FileConfiguration config = plugin.getConfig();
 
-
         List<String> labelLore = new ArrayList<>();
         for (String label : config.getStringList("report-menu.items.labels.lore")){
             if (label.contains("%labels%")){
@@ -51,11 +50,7 @@ public class BugReportSecondMenu {
 
         return GUIBuilder.builder(Utils.format(config.getString("report-menu.title").replace("%report_id%", String.valueOf(bugReport.getId()))), 1)
                 .addItem(ItemClickable.builder(0)
-                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("report-menu.items.report.material")))
-                                .setName(Utils.format(config.getString("report-menu.items.report.name").replace("%report_id%",
-                                        String.valueOf(bugReport.getId()))))
-                                .setLore(Arrays.asList(Utils.format(config.getStringList("report-menu.items.report.lore"))))
-                                .build())
+                        .setItemStack(getItemMenu("report", String.valueOf(bugReport.getId())))
                         .setAction(event -> {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
                             Player player = (Player) event.getWhoClicked();
@@ -63,6 +58,8 @@ public class BugReportSecondMenu {
                             player.closeInventory();
                             BookReport bookReport = bookReportFactory.create(bugReport);
                             bookReport.give(player);
+
+                            event.setCancelled(true);
                             return true;
                         })
                         .build())
@@ -74,18 +71,16 @@ public class BugReportSecondMenu {
                         .setAction(event -> {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
                             event.getWhoClicked().openInventory(labelsMenu.create(bugReport));
+                            event.setCancelled(true);
                             return true;
                         })
                         .build())
                 .addItem(ItemClickable.builder(2)
-                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("report-menu.items.priority.material")))
-                                .setName(Utils.format(config.getString("report-menu.items.priority.name").replace("%bug_priority%",
-                                        String.valueOf(bugReport.getPriority()))))
-                                .setLore(Utils.format(config.getStringList("report-menu.items.priority.lore")))
-                                .build())
+                        .setItemStack(getItemMenu("priority", String.valueOf(bugReport.getPriority())))
                         .setAction(event -> {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
                             event.getWhoClicked().openInventory(priorityMenu.create(bugReport));
+                            event.setCancelled(true);
                             return true;
                         })
                         .build())
@@ -96,23 +91,37 @@ public class BugReportSecondMenu {
                             event.setCurrentItem(solvedItem(bugReport.isSolved()));
                             bugReport.setExist(true);
                             bugReportManager.saveReport(bugReport);
+                            event.setCancelled(true);
                             return true;
                         })
                         .build())
                 .addItem(ItemClickable.builder(8)
-                        .setItemStack(ItemBuilder.newBuilder(Material.valueOf(config.getString("report-menu.items.main-menu.material")))
-                                .setName(Utils.format(config.getString("report-menu.items.main-menu.name")))
-                                .setLore(Utils.format(config.getStringList("report-menu.items.main-menu.lore")))
-                                .build())
+                        .setItemStack(getItemMenu("main-menu", ""))
                         .setAction(event -> {
                             if (!(event.getWhoClicked() instanceof Player)) return false;
                             bugReportManager.getBugReportList(bugReportList -> {
                                 Bukkit.getScheduler().runTask(plugin, () ->
                                         event.getWhoClicked().openInventory(bugReportMainMenu.build(bugReportList)));
                             });
+                            event.setCancelled(true);
                             return true;
                         })
                         .build())
+                .build();
+    }
+
+    private ItemStack getItemMenu(String s, String replace){
+        FileConfiguration config = plugin.getConfig();
+
+        Material material = Material.valueOf(config.getString("report-menu.items." + s + ".material"));
+        String name = Utils.format(config.getString("report-menu.items." + s + ".name")
+                .replace("%report_id%", replace)
+                .replace("%bug_priority%", replace));
+        List<String> lore = Arrays.asList(Utils.format(config.getStringList("report-menu.items." + s + ".lore")));
+
+        return ItemBuilder.newBuilder(material)
+                .setName(name)
+                .setLore(lore)
                 .build();
     }
 

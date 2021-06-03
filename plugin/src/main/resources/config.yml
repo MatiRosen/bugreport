@@ -202,7 +202,7 @@ filters-menu:
     items:
       label:
         material: PAPER
-        name: '&bFilter by label %label%'
+        name: '&bFilter by label &d%label%'
         lore:
           - ''
           - '&7Click to filter by %label% label'

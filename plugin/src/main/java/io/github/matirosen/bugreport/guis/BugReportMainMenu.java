@@ -43,10 +43,10 @@ public class BugReportMainMenu {
 
     public Inventory build(List<BugReport> bugReportList){
         MessageHandler messageHandler = ReportPlugin.getMessageHandler();
+        FileConfiguration config = reportPlugin.getConfig();
         List<ItemStack> entities = new ArrayList<>();
 
-        FileConfiguration config = reportPlugin.getConfig();
-        List<String> reportLore = Arrays.asList(Utils.format(config.getStringList("main-menu.items.reports.lore")));
+        String[] reportLore = Utils.format(config.getStringList("main-menu.items.reports.lore"));
         String solved = messageHandler.getMessage("solved");
         String unsolved = messageHandler.getMessage("unsolved");
 
@@ -56,13 +56,13 @@ public class BugReportMainMenu {
             String labels = bugReport.getLabels().toString().replace("[", "").replace("]", "");
 
             if (labels.length() > 2) labels = labels.substring(2);
-
             lore.add(Utils.format("&7" + bugReport.getId()));
-            String finalLabels = labels;
-            reportLore.forEach(s ->
-                    lore.add(s.replace("%solved%", bugReport.isSolved() ? solved : unsolved)
+
+            for (String s : reportLore){
+                lore.add(s.replace("%solved%", bugReport.isSolved() ? solved : unsolved)
                         .replace("%priority%", bugReport.getPriority() + "")
-                        .replace("%labels%", finalLabels)));
+                        .replace("%labels%", labels));
+            }
 
             entities.add(new CustomGuiItem(Material.valueOf(config.getString("main-menu.items.reports.material")), 1)
                     .displayName(Utils.format(config.getString("main-menu.items.reports.name").replace("%report_id%",

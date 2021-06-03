@@ -86,7 +86,9 @@ public class LabelsFilterMenu {
         String name = Utils.format(config.getString("filters-menu.labels.items.label.name").replace("%label%", label));
         List<String> lore = new ArrayList<>();
         lore.add(label);
-        lore.addAll(Arrays.asList(Utils.format(config.getStringList("filters-menu.labels.items.label.lore"))));
+        for (String s : config.getStringList("filters-menu.labels.items.label.lore")){
+            lore.add(Utils.format(s.replace("%label%", label)));
+        }
 
         return new CustomGuiItem(material, 1)
                 .displayName(name)
