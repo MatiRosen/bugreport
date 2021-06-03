@@ -35,6 +35,11 @@ labels:
   - overworld
   - nether
   - end
+  - mob
+  - villager
+  - explosion
+  - protection
+  - chat
 
 main-menu:
   title: "&8&lReport page: %page%"
