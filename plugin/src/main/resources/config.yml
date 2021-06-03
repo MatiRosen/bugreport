@@ -37,7 +37,7 @@ main-menu:
       glow: false
     label-filter:
       material: WATCH
-      name: '&8Open label filter menu'
+      name: '&bOpen label filter menu'
       lore:
         - ''
         - '&7Click here to go to label filter menu'

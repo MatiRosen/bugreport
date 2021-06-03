@@ -45,7 +45,6 @@ public class LabelsFilterMenu {
                 .setItemParser(item -> ItemClickable.builder()
                         .setItemStack(item)
                         .setAction(event -> {
-                            if (!(event.getWhoClicked() instanceof Player)) return false;
                             String label = item.getItemMeta().getLore().get(0);
 
                             event.setCancelled(true);
@@ -65,7 +64,6 @@ public class LabelsFilterMenu {
                                 .setLore(Arrays.asList(Utils.format(config.getStringList(backItem + "lore"))))
                                 .build())
                         .setAction(event -> {
-                            if (!(event.getWhoClicked() instanceof Player)) return false;
                             List<BugReport> filteredList = bugReportList.stream().filter(bugReport ->
                                     bugReport.getLabels().containsAll(labels)).collect(Collectors.toList());
 

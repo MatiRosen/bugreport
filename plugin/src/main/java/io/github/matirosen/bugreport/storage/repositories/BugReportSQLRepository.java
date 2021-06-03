@@ -1,10 +1,7 @@
 package io.github.matirosen.bugreport.storage.repositories;
 
 import io.github.matirosen.bugreport.reports.BugReport;
-import io.github.matirosen.bugreport.storage.Callback;
 import io.github.matirosen.bugreport.storage.DataConnection;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.inject.Inject;
 import java.sql.*;
@@ -13,9 +10,6 @@ import java.util.List;
 
 public class BugReportSQLRepository implements ObjectRepository<BugReport, Integer> {
 
-
-    @Inject
-    private JavaPlugin plugin;
     @Inject
     private DataConnection<Connection> dataConnection;
 
@@ -47,7 +41,6 @@ public class BugReportSQLRepository implements ObjectRepository<BugReport, Integ
                 for (String label : resultSet.getString("labels").split(",")){
                     bugReport.addLabel(label);
                 }
-
             } else{
                 bugReport = null;
             }
@@ -62,30 +55,13 @@ public class BugReportSQLRepository implements ObjectRepository<BugReport, Integ
     @Override
     public List<BugReport> loadAll() {
         List<BugReport> bugReportList = new ArrayList<>();
-        String query = "select count(*) from `report_table`";
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            rs.next();
-            int counter = rs.getInt(1) + 1;
-            int goal = counter - 500;
+        int counter = getTotalReports();
 
-            while (counter > goal){
-                if (counter == 0) break;
-                BugReport bugReport = load(counter);
-                counter--;
-
-                if (bugReport == null) {
-                    goal--;
-                    continue;
-                }
-                bugReportList.add(bugReport);
-            }
-
-        } catch (SQLException exception) {
-            exception.printStackTrace();
+        while (counter > 0){
+            BugReport bugReport = load(counter);
+            if (bugReport != null) bugReportList.add(bugReport);
+            counter--;
         }
-
         return bugReportList;
     }
 
@@ -123,32 +99,22 @@ public class BugReportSQLRepository implements ObjectRepository<BugReport, Integ
     }
 
     @Override
+    public int getTotalReports(){
+        String query = "select count(*) from `report_table`";
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            rs.next();
+
+            return rs.getInt(1) + 1;
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            return 0;
+        }
+    }
+
+    @Override
     public void delete(Integer id) {
 
     }
-
-    @Override
-    public void saveAsync(BugReport bugReport, Callback<BugReport> callback){
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            save(bugReport);
-            callback.call(bugReport);
-        });
-    }
-
-    @Override
-    public void loadAsync(Integer id, Callback<BugReport> callback) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            BugReport bugReport = load(id);
-            callback.call(bugReport);
-        });
-    }
-
-    @Override
-    public void loadAllAsync(Callback<List<BugReport>> callback){
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            List<BugReport> bugReportList = loadAll();
-            callback.call(bugReportList);
-        });
-    }
-
 }

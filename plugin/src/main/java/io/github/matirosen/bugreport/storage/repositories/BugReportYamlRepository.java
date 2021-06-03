@@ -2,12 +2,8 @@ package io.github.matirosen.bugreport.storage.repositories;
 
 import io.github.matirosen.bugreport.managers.FileManager;
 import io.github.matirosen.bugreport.reports.BugReport;
-import io.github.matirosen.bugreport.storage.Callback;
-import io.github.matirosen.bugreport.utils.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -20,16 +16,13 @@ public class BugReportYamlRepository implements ObjectRepository<BugReport, Inte
 
     @Inject
     private FileManager fileManager;
-    @Inject
-    private JavaPlugin plugin;
 
     @Override
     public void start(){
-        System.out.println("xd");
     }
 
     @Override
-    public BugReport load(Integer id) {
+    public BugReport load(Integer id){
         String fileName = "report-" + id + ".yml";
         File file = new File(fileManager.getReportsFolder(), fileName);
         if (!file.exists()) return null;
@@ -51,31 +44,20 @@ public class BugReportYamlRepository implements ObjectRepository<BugReport, Inte
     }
 
     @Override
-    public List<BugReport> loadAll() {
+    public List<BugReport> loadAll(){
         List<BugReport> bugReportList = new ArrayList<>();
+        int counter = getTotalReports();
 
-        System.out.println("utils" + Utils.totalReports);
-        System.out.println("files" + Objects.requireNonNull(fileManager.getReportsFolder().list()).length);
-        int counter = Utils.totalReports;
-        int goal = Utils.totalReports - 500;
-
-        while (counter > goal){
-            if (counter == 0) break;
+        while (counter > 0){
             BugReport bugReport = load(counter);
+            if (bugReport != null) bugReportList.add(bugReport);
             counter--;
-
-            if (bugReport == null) {
-                goal--;
-                continue;
-            }
-            bugReportList.add(bugReport);
         }
-
         return bugReportList;
     }
 
     @Override
-    public void save(BugReport bugReport) {
+    public void save(BugReport bugReport){
         String fileName = "report-" + bugReport.getId() + ".yml";
         File reportFile = new File(fileManager.getReportsFolder(), fileName);
 
@@ -96,30 +78,14 @@ public class BugReportYamlRepository implements ObjectRepository<BugReport, Inte
     }
 
     @Override
-    public void delete(Integer id) {
+    public int getTotalReports(){
+        return Objects.requireNonNull(fileManager.getReportsFolder().list()).length + 1;
+    }
+
+    @Override
+    public void delete(Integer id){
         String fileName = "report-" + id + ".yml";
         File file = new File(fileManager.getReportsFolder(), fileName);
         file.delete();
-    }
-
-    @Override
-    public void saveAsync(BugReport bugReport, Callback<BugReport> callback){
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            save(bugReport);
-            callback.call(bugReport);
-        });
-    }
-
-    @Override
-    public void loadAsync(Integer id, Callback<BugReport> callback) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            BugReport bugReport = load(id);
-            callback.call(bugReport);
-        });
-    }
-
-    @Override
-    public void loadAllAsync(Callback<List<BugReport>> callback){
-
     }
 }

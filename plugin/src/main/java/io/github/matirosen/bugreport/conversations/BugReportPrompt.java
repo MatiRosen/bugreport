@@ -15,13 +15,14 @@ public class BugReportPrompt extends StringPrompt {
     private boolean started;
     private final BugReportManager bugReportManager;
     private final MessageHandler messageHandler;
+    private final int totalReports;
 
-
-    public BugReportPrompt(String bugReportMessage, boolean started, BugReportManager bugReportManager){
+    public BugReportPrompt(String bugReportMessage, boolean started, BugReportManager bugReportManager, int totalReports){
         this.bugReportMessage = bugReportMessage;
         this.started = started;
         this.bugReportManager = bugReportManager;
         this.messageHandler = ReportPlugin.getMessageHandler();
+        this.totalReports = totalReports;
     }
 
     @Override
@@ -41,7 +42,7 @@ public class BugReportPrompt extends StringPrompt {
         }
 
         if (s.equalsIgnoreCase("done")){
-            return new ConfirmationPrompt(bugReportMessage, bugReportManager);
+            return new ConfirmationPrompt(bugReportMessage, bugReportManager, totalReports);
         }
 
         bugReportMessage = bugReportMessage + " " + s;

@@ -52,7 +52,6 @@ public class BugReportSecondMenu {
                 .addItem(ItemClickable.builder(0)
                         .setItemStack(getItemMenu("report", String.valueOf(bugReport.getId())))
                         .setAction(event -> {
-                            if (!(event.getWhoClicked() instanceof Player)) return false;
                             Player player = (Player) event.getWhoClicked();
 
                             player.closeInventory();
@@ -69,7 +68,6 @@ public class BugReportSecondMenu {
                                 .setLore(Utils.format(labelLore))
                                 .build())
                         .setAction(event -> {
-                            if (!(event.getWhoClicked() instanceof Player)) return false;
                             event.getWhoClicked().openInventory(labelsMenu.create(bugReport));
                             event.setCancelled(true);
                             return true;
@@ -78,7 +76,6 @@ public class BugReportSecondMenu {
                 .addItem(ItemClickable.builder(2)
                         .setItemStack(getItemMenu("priority", String.valueOf(bugReport.getPriority())))
                         .setAction(event -> {
-                            if (!(event.getWhoClicked() instanceof Player)) return false;
                             event.getWhoClicked().openInventory(priorityMenu.create(bugReport));
                             event.setCancelled(true);
                             return true;
@@ -98,7 +95,6 @@ public class BugReportSecondMenu {
                 .addItem(ItemClickable.builder(8)
                         .setItemStack(getItemMenu("main-menu", ""))
                         .setAction(event -> {
-                            if (!(event.getWhoClicked() instanceof Player)) return false;
                             bugReportManager.getBugReportList(bugReportList -> {
                                 Bukkit.getScheduler().runTask(plugin, () ->
                                         event.getWhoClicked().openInventory(bugReportMainMenu.build(bugReportList)));

@@ -50,12 +50,10 @@ public class BugReportMainMenu {
         String solved = messageHandler.getMessage("solved");
         String unsolved = messageHandler.getMessage("unsolved");
 
-
-        for (BugReport bugReport : bugReportList) {
+        for (BugReport bugReport : bugReportList){
             List<String> lore = new ArrayList<>();
-            String labels = bugReport.getLabels().toString().replace("[", "").replace("]", "");
+            String labels = String.join(", ", bugReport.getLabels());
 
-            if (labels.length() > 2) labels = labels.substring(2);
             lore.add(Utils.format("&7" + bugReport.getId()));
 
             for (String s : reportLore){
@@ -78,8 +76,6 @@ public class BugReportMainMenu {
                 .setItemParser(item -> ItemClickable.builder()
                         .setItemStack(item)
                         .setAction(event -> {
-                            if (!(event.getWhoClicked() instanceof Player)) return false;
-
                             int id = Integer.parseInt(Objects.requireNonNull(event.getCurrentItem().getItemMeta()).getLore().get(0).substring(2));
 
                             Player player = (Player) event.getWhoClicked();
@@ -120,7 +116,6 @@ public class BugReportMainMenu {
                         .setLore(lore)
                         .build())
                 .setAction(event -> {
-                    if (!(event.getWhoClicked() instanceof Player)) return false;
                     Player player = (Player) event.getWhoClicked();
 
                     if (filter.equalsIgnoreCase("priority")){

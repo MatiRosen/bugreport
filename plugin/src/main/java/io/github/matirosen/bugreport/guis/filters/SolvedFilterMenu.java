@@ -45,8 +45,6 @@ public class SolvedFilterMenu {
         return ItemClickable.builder(slot)
                 .setItemStack(ItemBuilder.newBuilder(material).setName(name).setLore(lore).build())
                 .setAction(event -> {
-                    if (!(event.getWhoClicked() instanceof Player)) return false;
-
                     List<BugReport> filteredList = bugReportList.stream().filter(bugReport ->
                            bugReport.isSolved() == solved.equalsIgnoreCase("solved")).collect(Collectors.toList());
 

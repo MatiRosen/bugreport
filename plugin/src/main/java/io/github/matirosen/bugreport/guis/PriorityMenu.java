@@ -51,8 +51,6 @@ public class PriorityMenu {
                         .setLore(lore)
                         .build())
                 .setAction(event -> {
-                    if (!(event.getWhoClicked() instanceof Player)) return false;
-
                     bugReport.setPriority(priority);
                     bugReport.setExist(true);
                     bugReportManager.saveReport(bugReport);

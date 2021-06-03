@@ -45,8 +45,6 @@ public class PriorityFilterMenu {
         return ItemClickable.builder(priority - 1)
                 .setItemStack(ItemBuilder.newBuilder(material).setName(name).setLore(lore).build())
                 .setAction(event -> {
-                    if (!(event.getWhoClicked() instanceof Player)) return false;
-
                     List<BugReport> filteredList = bugReportList.stream().filter(bugReport ->
                             bugReport.getPriority() == priority).collect(Collectors.toList());
 

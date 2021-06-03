@@ -11,8 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Utils {
-    public static int totalReports;
-
     public static String format(String s){
         return ChatColor.translateAlternateColorCodes('&',s);
     }

@@ -42,7 +42,6 @@ public class LabelsMenu {
                 .setItemParser(item -> ItemClickable.builder()
                         .setItemStack(item)
                         .setAction(event -> {
-                            if (!(event.getWhoClicked() instanceof Player)) return false;
                             String label = event.getCurrentItem().getItemMeta().getDisplayName().substring(2);
 
                             boolean isSelected = bugReport.getLabels().contains(label);
@@ -66,7 +65,6 @@ public class LabelsMenu {
                                 .lore(Arrays.asList(Utils.format(config.getStringList("labels-menu.items.back.lore"))))
                                 .create())
                         .setAction(event -> {
-                            if (!(event.getWhoClicked() instanceof Player)) return false;
                             event.getWhoClicked().openInventory(bugReportSecondMenu.build(bugReport));
                             event.setCancelled(true);
                             return true;

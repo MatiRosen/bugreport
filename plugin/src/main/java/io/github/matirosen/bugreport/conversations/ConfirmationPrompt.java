@@ -18,10 +18,12 @@ public class ConfirmationPrompt extends StringPrompt {
 
     private final BugReportManager bugReportManager;
     private final MessageHandler messageHandler;
+    private final int totalReports;
 
-    public ConfirmationPrompt(String bugReportMessage, BugReportManager bugReportManager){
+    public ConfirmationPrompt(String bugReportMessage, BugReportManager bugReportManager, int totalReports){
         this.bugReportMessage = bugReportMessage;
         this.bugReportManager = bugReportManager;
+        this.totalReports = totalReports;
 
         this.messageHandler = ReportPlugin.getMessageHandler();
     }
@@ -37,15 +39,15 @@ public class ConfirmationPrompt extends StringPrompt {
         Objects.requireNonNull(s);
 
         if (s.equalsIgnoreCase("y") || s.equalsIgnoreCase("yes")){
-            return new BugReportPrompt(bugReportMessage, true, bugReportManager);
+            return new BugReportPrompt(bugReportMessage, true, bugReportManager, totalReports);
         }
 
         else if (s.equalsIgnoreCase("n") || s.equalsIgnoreCase("no")){
             Player player = (Player) context.getForWhom();
             player.sendRawMessage(messageHandler.getMessage("report-completed"));
 
-            BugReport report = new BugReport(Utils.totalReports, player.getName(), bugReportMessage, System.currentTimeMillis(), false);
-            bugReportManager.addReport(report);
+            BugReport report = new BugReport(totalReports, player.getName(), bugReportMessage, System.currentTimeMillis(), false);
+            bugReportManager.saveReport(report);
 
             return Prompt.END_OF_CONVERSATION;
         }

@@ -6,7 +6,6 @@ import java.sql.Connection;
 
 public class YamlConnection implements DataConnection<Connection> {
 
-
     @Override
     public Connection getConnection(){
         return null;
@@ -14,7 +13,6 @@ public class YamlConnection implements DataConnection<Connection> {
 
     @Override
     public void connect(){
-
     }
 
     @Override

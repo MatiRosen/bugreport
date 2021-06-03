@@ -6,6 +6,7 @@ import io.github.matirosen.bugreport.guis.BugReportMainMenu;
 import io.github.matirosen.bugreport.guis.BugReportSecondMenu;
 import io.github.matirosen.bugreport.managers.BugReportManager;
 import io.github.matirosen.bugreport.reports.BugReport;
+import io.github.matirosen.bugreport.storage.repositories.ObjectRepository;
 import io.github.matirosen.bugreport.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
@@ -31,6 +32,8 @@ public class MainCommand implements TabExecutor {
     private BugReportMainMenu bugReportMainMenu;
     @Inject
     private BugReportSecondMenu bugReportSecondMenu;
+    @Inject
+    private ObjectRepository<BugReport, Integer> bugReportRepository;
 
 
     @Inject
@@ -71,7 +74,7 @@ public class MainCommand implements TabExecutor {
             }
             ConversationFactory cf = new ConversationFactory(plugin);
             Conversation conversation = cf
-                    .withFirstPrompt(new BugReportPrompt("", false, bugReportManager))
+                    .withFirstPrompt(new BugReportPrompt("", false, bugReportManager, bugReportRepository.getTotalReports()))
                     .withLocalEcho(false)
                     .withTimeout(config.getInt("time-out"))
                     .buildConversation(player);
@@ -117,10 +120,11 @@ public class MainCommand implements TabExecutor {
 
         if (args.length >= 1 && args[0].equalsIgnoreCase("test")){
             int counter = Integer.parseInt(args[1]);
-
+            int id = bugReportRepository.getTotalReports();
             for (int i = 0; i < counter; i++){
-                BugReport bugReport = new BugReport(Utils.totalReports, player.getName(), "hola xd", System.currentTimeMillis(), false);
-                bugReportManager.addReport(bugReport);
+                BugReport bugReport = new BugReport(id, player.getName(), "hola xd", System.currentTimeMillis(), false);
+                bugReportManager.saveReport(bugReport);
+                id++;
             }
             return true;
         }
@@ -144,7 +148,7 @@ public class MainCommand implements TabExecutor {
         }
 
         if (args[0].equalsIgnoreCase("get") && sender.hasPermission("bugreport.get") && (args.length == 2 && args[1].isEmpty())){
-            int totalReports = Utils.totalReports - 1;
+            int totalReports = bugReportRepository.getTotalReports() - 1;
             tab.add("[" + 1 + "-" + totalReports + "]");
         }
 

@@ -13,7 +13,6 @@ import java.sql.Connection;
 
 public class YamlDataModule implements Module {
 
-
     @Override
     public void configure(Binder binder) {
         binder.bind(new TypeReference<DataConnection<Connection>>(){}).to(YamlConnection.class).singleton();
