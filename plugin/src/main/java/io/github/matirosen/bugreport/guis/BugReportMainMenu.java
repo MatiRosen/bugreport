@@ -95,6 +95,7 @@ public class BugReportMainMenu {
                 .addItem(getFilterItem("priority", 45, bugReportList))
                 .addItem(getFilterItem("solved", 46, bugReportList))
                 .addItem(getFilterItem("label", 47, bugReportList))
+                .addItem(getFilterItem("clear", 53, bugReportList))
                 .setNextPageItem(Utils.getChangePageItem(reportPlugin, "main-menu.items.", "next"))
                 .setPreviousPageItem(Utils.getChangePageItem(reportPlugin, "main-menu.items.","previous"))
                 .build();
@@ -124,6 +125,10 @@ public class BugReportMainMenu {
                         player.openInventory(solvedFilterMenu.build(bugReportList));
                     } else if (filter.equalsIgnoreCase("label")){
                         player.openInventory(labelsFilterMenu.build(bugReportList));
+                    } else if (filter.equalsIgnoreCase("clear")){
+                        player.closeInventory();
+                        bugReportManager.getBugReportList(list ->
+                            Bukkit.getScheduler().runTask(reportPlugin, () -> player.openInventory(build(list))));
                     }
 
                     event.setCancelled(true);

@@ -71,6 +71,12 @@ main-menu:
       lore:
         - ''
         - '&7Click here to go to solved filter menu'
+    clear-filter:
+      material: COMPASS
+      name: '&bRemove filters'
+      lore:
+        - ''
+        - '&7Click here to remove filters'
     next-page:
       material: ARROW
       name: '&7Next page'
