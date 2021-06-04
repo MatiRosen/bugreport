@@ -59,7 +59,7 @@ public class LabelsFilterMenu {
                 .addItem(ItemClickable.builder(49)
                         .setItemStack(ItemBuilder
                                 .newBuilder(Material.valueOf(config.getString(backItem + "material")))
-                                .setName(Utils.format(backItem + "name"))
+                                .setName(Utils.format(config.getString(backItem + "name")))
                                 .setLore(Arrays.asList(Utils.format(config.getStringList(backItem + "lore"))))
                                 .build())
                         .setAction(event -> {
