@@ -167,12 +167,12 @@ labels-menu:
       material: ARROW
       name: '&7Next page'
       lore:
-        - '&bClick to go to page %next_page%'
+        - '&bClick to go to next page'
     previous-page:
       material: ARROW
       name: '&7Previous page'
       lore:
-        - '&bClick to go to page %previous_page%'
+        - '&bClick to go to previous page'
 filters-menu:
   priority:
     title: '&8Priority filter menu'
@@ -233,9 +233,9 @@ filters-menu:
         material: ARROW
         name: '&7Next page'
         lore:
-          - '&bClick to go to page %next_page%'
+          - '&bClick to go to next page'
       previous-page:
         material: ARROW
         name: '&7Previous page'
         lore:
-          - '&bClick to go to page %previous_page%'
+          - '&bClick to go to previous page'
