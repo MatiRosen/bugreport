@@ -40,7 +40,10 @@ public class MainCommand implements TabExecutor {
 
 
     @Inject
-    public MainCommand(ReportPlugin plugin){
+    public MainCommand(){
+    }
+
+    public void start(ReportPlugin plugin){
         Objects.requireNonNull(plugin.getCommand("bug")).setExecutor(this);
     }
 
@@ -143,17 +146,6 @@ public class MainCommand implements TabExecutor {
 
         player.sendMessage(Utils.format("\n&bhttps://github.com/MatiRosen/bugreport\n"
                 + "&d------ &a&l[&6&lBUG-REPORT&a&l] &d------"));
-
-        if (args.length >= 1 && args[0].equalsIgnoreCase("test")){
-            int counter = Integer.parseInt(args[1]);
-            int id = bugReportRepository.getTotalReports();
-            for (int i = 0; i < counter; i++){
-                BugReport bugReport = new BugReport(id, player.getName(), "hola xd", System.currentTimeMillis(), false);
-                bugReportManager.saveReport(bugReport);
-                id++;
-            }
-            return true;
-        }
         return true;
     }
 

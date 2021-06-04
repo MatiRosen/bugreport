@@ -28,13 +28,17 @@ public class ReportPlugin extends JavaPlugin {
 
     private static MessageHandler messageHandler;
 
-    public void onEnable() {
+    public void onLoad(){
         try {
             Injector injector = Injector.create(new CoreModule(this));
             injector.injectMembers(this);
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void onEnable(){
+        mainCommand.start(this);
 
         fileManager.loadAllFileConfigurations();
         connection.connect();
