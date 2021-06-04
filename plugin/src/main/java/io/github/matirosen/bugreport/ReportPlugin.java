@@ -22,7 +22,6 @@ public class ReportPlugin extends JavaPlugin {
     private FileManager fileManager;
     @Inject
     private BugReportManager bugReportManager;
-
     @Inject
     private MainCommand mainCommand;
 
@@ -38,8 +37,7 @@ public class ReportPlugin extends JavaPlugin {
     }
 
     public void onEnable(){
-        mainCommand.start(this);
-
+        mainCommand.start();
         fileManager.loadAllFileConfigurations();
         connection.connect();
 

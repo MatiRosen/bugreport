@@ -39,11 +39,7 @@ public class MainCommand implements TabExecutor {
     private FileManager fileManager;
 
 
-    @Inject
-    public MainCommand(){
-    }
-
-    public void start(ReportPlugin plugin){
+    public void start(){
         Objects.requireNonNull(plugin.getCommand("bug")).setExecutor(this);
     }
 
