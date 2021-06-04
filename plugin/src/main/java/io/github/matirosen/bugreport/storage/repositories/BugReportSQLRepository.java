@@ -39,6 +39,7 @@ public class BugReportSQLRepository implements ObjectRepository<BugReport, Integ
                 bugReport.setPriority(resultSet.getInt("priority"));
                 bugReport.setSolved(resultSet.getBoolean("solved"));
                 for (String label : resultSet.getString("labels").split(",")){
+                    if (label.isEmpty()) continue;
                     bugReport.addLabel(label);
                 }
             } else{
@@ -76,7 +77,6 @@ public class BugReportSQLRepository implements ObjectRepository<BugReport, Integ
                 statement.setString(5, String.join(",", bugReport.getLabels()));
                 statement.setBoolean(6, bugReport.isSolved());
                 statement.setInt(7, bugReport.getId());
-
                 statement.executeUpdate();
             } catch (SQLException exception){
                 exception.printStackTrace();

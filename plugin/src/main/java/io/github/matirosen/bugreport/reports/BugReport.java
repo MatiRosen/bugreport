@@ -9,7 +9,7 @@ public class BugReport {
     private final String playerName, reportMessage;
     private final long currentTimeMillis;
     private final List<String> labels = new ArrayList<>();
-    private int priority = 0;
+    private int priority = 1;
     private boolean solved;
     private boolean exist;
 
