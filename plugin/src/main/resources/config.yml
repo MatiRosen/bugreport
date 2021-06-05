@@ -54,23 +54,44 @@ main-menu:
         - '&b%labels%'
       glow: false
     label-filter:
-      material: WATCH
-      name: '&bOpen label filter menu'
-      lore:
-        - ''
-        - '&7Click here to go to label filter menu'
+      selected:
+        material: WATCH
+        name: '&bAlready using this filter'
+        lore:
+          - ''
+          - '&7You are using this filter'
+      unselected:
+        material: WATCH
+        name: '&bOpen label filter menu'
+        lore:
+          - ''
+          - '&7Click here to go to label filter menu'
     priority-filter:
-      material: DIAMOND
-      name: '&bOpen priority filter menu'
-      lore:
-        - ''
-        - '&7Click here to go to priority filter menu'
+      selected:
+        material: WATCH
+        name: '&bAlready using this filter'
+        lore:
+          - ''
+          - '&7You are using this filter'
+      unselected:
+        material: WATCH
+        name: '&bOpen priority filter menu'
+        lore:
+          - ''
+          - '&7Click here to go to priority filter menu'
     solved-filter:
-      material: EMERALD
-      name: '&bOpen solved filter menu'
-      lore:
-        - ''
-        - '&7Click here to go to solved filter menu'
+      selected:
+        material: WATCH
+        name: '&bAlready using this filter'
+        lore:
+          - ''
+          - '&7You are using this filter'
+      unselected:
+        material: EMERALD
+        name: '&bOpen solved filter menu'
+        lore:
+          - ''
+          - '&7Click here to go to solved filter menu'
     clear-filter:
       material: COMPASS
       name: '&bRemove filters'

@@ -97,7 +97,7 @@ public class BugReportSecondMenu {
                         .setAction(event -> {
                             bugReportManager.getBugReportList(bugReportList -> {
                                 Bukkit.getScheduler().runTask(plugin, () ->
-                                        event.getWhoClicked().openInventory(bugReportMainMenu.build(bugReportList)));
+                                        event.getWhoClicked().openInventory(bugReportMainMenu.build(bugReportList, false, false, false)));
                             });
                             event.setCancelled(true);
                             return true;

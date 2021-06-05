@@ -41,7 +41,7 @@ public class BugReportMainMenu {
     private LabelsFilterMenu labelsFilterMenu;
 
 
-    public Inventory build(List<BugReport> bugReportList){
+    public Inventory build(List<BugReport> bugReportList, boolean priorityFilter, boolean labelFilter, boolean solvedFilter){
         MessageHandler messageHandler = ReportPlugin.getMessageHandler();
         FileConfiguration config = reportPlugin.getConfig();
         List<ItemStack> entities = new ArrayList<>();
@@ -92,10 +92,10 @@ public class BugReportMainMenu {
                             return true;
                         })
                         .build())
-                .addItem(getFilterItem("priority", 45, bugReportList))
-                .addItem(getFilterItem("solved", 46, bugReportList))
-                .addItem(getFilterItem("label", 47, bugReportList))
-                .addItem(getFilterItem("clear", 53, bugReportList))
+                .addItem(getFilterItem("priority", 45, bugReportList, priorityFilter, labelFilter, solvedFilter))
+                .addItem(getFilterItem("solved", 46, bugReportList, priorityFilter, labelFilter, solvedFilter))
+                .addItem(getFilterItem("label", 47, bugReportList, priorityFilter, labelFilter, solvedFilter))
+                .addItem(getFilterItem("clear", 53, bugReportList, priorityFilter, labelFilter, solvedFilter))
                 .setNextPageItem(Utils.getChangePageItem(reportPlugin, "main-menu.items.", "next"))
                 .setPreviousPageItem(Utils.getChangePageItem(reportPlugin, "main-menu.items.","previous"))
                 .build();
@@ -103,12 +103,22 @@ public class BugReportMainMenu {
         // then its a good report, so player gets reputation for future reports. (Same with bad reputation)
     }
 
-    private ItemClickable getFilterItem(String filter, int slot, List<BugReport> bugReportList){
+    private ItemClickable getFilterItem(String filter, int slot, List<BugReport> bugReportList, boolean priorityFilter, boolean labelFilter, boolean solvedFilter){
         FileConfiguration config = reportPlugin.getConfig();
 
-        Material material = Material.valueOf(config.getString("main-menu.items." + filter + "-filter.material"));
-        String name = Utils.format(config.getString("main-menu.items." + filter + "-filter.name"));
-        List<String> lore = Arrays.asList(Utils.format(config.getStringList("main-menu.items." + filter + "-filter.lore")));
+        String selected = "";
+
+        if (filter.equalsIgnoreCase("priority")){
+            selected = priorityFilter ? "selected" : "unselected";
+        } else if (filter.equalsIgnoreCase("label")){
+            selected = labelFilter ? "selected" : "unselected";
+        } else if (filter.equalsIgnoreCase("solved")) {
+            selected = solvedFilter ? "selected" : "unselected";
+        }
+
+        Material material = Material.valueOf(config.getString("main-menu.items." + filter + "-filter." + selected  + ".material"));
+        String name = Utils.format(config.getString("main-menu.items." + filter + "-filter." + selected  + ".name"));
+        List<String> lore = Arrays.asList(Utils.format(config.getStringList("main-menu.items." + filter + "-filter." + selected  + ".lore")));
 
         return ItemClickable.builder(slot)
                 .setItemStack(ItemBuilder
@@ -119,16 +129,16 @@ public class BugReportMainMenu {
                 .setAction(event -> {
                     Player player = (Player) event.getWhoClicked();
 
-                    if (filter.equalsIgnoreCase("priority")){
-                        player.openInventory(priorityFilterMenu.build(bugReportList));
-                    } else if (filter.equalsIgnoreCase("solved")){
-                        player.openInventory(solvedFilterMenu.build(bugReportList));
-                    } else if (filter.equalsIgnoreCase("label")){
-                        player.openInventory(labelsFilterMenu.build(bugReportList));
+                    if (filter.equalsIgnoreCase("priority") && !priorityFilter){
+                        player.openInventory(priorityFilterMenu.build(bugReportList, labelFilter, solvedFilter));
+                    } else if (filter.equalsIgnoreCase("solved") && !solvedFilter){
+                        player.openInventory(solvedFilterMenu.build(bugReportList, priorityFilter, labelFilter));
+                    } else if (filter.equalsIgnoreCase("label") && !labelFilter){
+                        player.openInventory(labelsFilterMenu.build(bugReportList, priorityFilter, solvedFilter));
                     } else if (filter.equalsIgnoreCase("clear")){
                         player.closeInventory();
                         bugReportManager.getBugReportList(list ->
-                            Bukkit.getScheduler().runTask(reportPlugin, () -> player.openInventory(build(list))));
+                            Bukkit.getScheduler().runTask(reportPlugin, () -> player.openInventory(build(list, false, false, false))));
                     }
 
                     event.setCancelled(true);

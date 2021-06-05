@@ -68,7 +68,7 @@ public class MainCommand implements TabExecutor {
             }
             player.sendMessage("Loading reports...");
             bugReportManager.getBugReportList(bugReportList ->
-                    Bukkit.getScheduler().runTask(plugin, () -> player.openInventory(bugReportMainMenu.build(bugReportList)))
+                    Bukkit.getScheduler().runTask(plugin, () -> player.openInventory(bugReportMainMenu.build(bugReportList, false, false, false)))
             );
 
             return true;

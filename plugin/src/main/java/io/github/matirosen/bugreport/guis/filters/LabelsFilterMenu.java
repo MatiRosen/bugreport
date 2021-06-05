@@ -27,7 +27,7 @@ public class LabelsFilterMenu {
     private ReportPlugin plugin;
 
 
-    public Inventory build(List<BugReport> bugReportList){
+    public Inventory build(List<BugReport> bugReportList, boolean priorityFilter,  boolean solvedFilter){
         FileConfiguration config = plugin.getConfig();
         List<ItemStack> entities = new ArrayList<>();
 
@@ -66,7 +66,7 @@ public class LabelsFilterMenu {
                             List<BugReport> filteredList = bugReportList.stream().filter(bugReport ->
                                     bugReport.getLabels().containsAll(labels)).collect(Collectors.toList());
 
-                            event.getWhoClicked().openInventory(bugReportMainMenu.build(filteredList));
+                            event.getWhoClicked().openInventory(bugReportMainMenu.build(filteredList, priorityFilter, true, solvedFilter));
                             event.setCancelled(true);
                             return true;
                         })

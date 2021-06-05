@@ -23,16 +23,16 @@ public class SolvedFilterMenu {
     @Inject
     private ReportPlugin plugin;
 
-    public Inventory build(List<BugReport> bugReportList){
+    public Inventory build(List<BugReport> bugReportList, boolean priorityFilter, boolean labelsFilter){
         FileConfiguration config = plugin.getConfig();
 
         return GUIBuilder.builder(Utils.format(config.getString("filters-menu.solved.title")), 1)
-                .addItem(getConfigItem(bugReportList, "solved"))
-                .addItem(getConfigItem(bugReportList, "unsolved"))
+                .addItem(getConfigItem(bugReportList, "solved", priorityFilter, labelsFilter))
+                .addItem(getConfigItem(bugReportList, "unsolved", priorityFilter, labelsFilter))
                 .build();
     }
 
-    private ItemClickable getConfigItem(List<BugReport> bugReportList, String solved){
+    private ItemClickable getConfigItem(List<BugReport> bugReportList, String solved, boolean priorityFilter, boolean labelsFilter){
         FileConfiguration config = plugin.getConfig();
 
         Material material = Material.valueOf(config.getString("filters-menu.solved.items." + solved + ".material"));
@@ -47,7 +47,7 @@ public class SolvedFilterMenu {
                     List<BugReport> filteredList = bugReportList.stream().filter(bugReport ->
                            bugReport.isSolved() == solved.equalsIgnoreCase("solved")).collect(Collectors.toList());
 
-                    event.getWhoClicked().openInventory(bugReportMainMenu.build(filteredList));
+                    event.getWhoClicked().openInventory(bugReportMainMenu.build(filteredList, priorityFilter, labelsFilter, true));
                     event.setCancelled(true);
                     return true;
                 })

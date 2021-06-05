@@ -23,19 +23,19 @@ public class PriorityFilterMenu {
     @Inject
     private ReportPlugin plugin;
 
-    public Inventory build(List<BugReport> bugReportList){
+    public Inventory build(List<BugReport> bugReportList, boolean labelFilter, boolean solvedFilter){
         FileConfiguration config = plugin.getConfig();
 
         return GUIBuilder.builder(Utils.format(config.getString("filters-menu.priority.title")), 1)
-                .addItem(getConfigItem(bugReportList, 1))
-                .addItem(getConfigItem(bugReportList, 2))
-                .addItem(getConfigItem(bugReportList, 3))
-                .addItem(getConfigItem(bugReportList, 4))
-                .addItem(getConfigItem(bugReportList, 5))
+                .addItem(getConfigItem(bugReportList, 1, labelFilter, solvedFilter))
+                .addItem(getConfigItem(bugReportList, 2, labelFilter, solvedFilter))
+                .addItem(getConfigItem(bugReportList, 3, labelFilter, solvedFilter))
+                .addItem(getConfigItem(bugReportList, 4, labelFilter, solvedFilter))
+                .addItem(getConfigItem(bugReportList, 5, labelFilter, solvedFilter))
                 .build();
     }
 
-    private ItemClickable getConfigItem(List<BugReport> bugReportList, int priority){
+    private ItemClickable getConfigItem(List<BugReport> bugReportList, int priority, boolean labelFilter, boolean solvedFilter){
         FileConfiguration config = plugin.getConfig();
         Material material = Material.valueOf(config.getString("filters-menu.priority.items." + priority + ".material"));
         String name = Utils.format(config.getString("filters-menu.priority.items." + priority + ".name"));
@@ -47,7 +47,7 @@ public class PriorityFilterMenu {
                     List<BugReport> filteredList = bugReportList.stream().filter(bugReport ->
                             bugReport.getPriority() == priority).collect(Collectors.toList());
 
-                    event.getWhoClicked().openInventory(bugReportMainMenu.build(filteredList));
+                    event.getWhoClicked().openInventory(bugReportMainMenu.build(filteredList, true, labelFilter, solvedFilter));
                     event.setCancelled(true);
                     return true;
                 })
