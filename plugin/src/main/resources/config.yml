@@ -68,20 +68,20 @@ main-menu:
           - '&7Click here to go to label filter menu'
     priority-filter:
       selected:
-        material: WATCH
+        material: DIAMOND
         name: '&bAlready using this filter'
         lore:
           - ''
           - '&7You are using this filter'
       unselected:
-        material: WATCH
+        material: DIAMOND
         name: '&bOpen priority filter menu'
         lore:
           - ''
           - '&7Click here to go to priority filter menu'
     solved-filter:
       selected:
-        material: WATCH
+        material: EMERALD
         name: '&bAlready using this filter'
         lore:
           - ''
