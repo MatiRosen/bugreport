@@ -14,6 +14,12 @@ In the report, you can see who created it, when was created, the message and the
 Everything is configurable and translatable. You can check the wiki to learn how to do it: 
 https://github.com/MatiRosen/bugreport/wiki
 
+Commands:
+/bug report
+/bug menu
+/bug get
+/bug help
+/bug reload
 
 Working in:
 - Remove reports
