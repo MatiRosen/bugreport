@@ -1,17 +1,14 @@
 ![Alt Text](https://i.imgur.com/W5Xo1Gk.jpeg)
 
-It is a Minecraft plugin that allows players to report every bug they find in your server.
+# BugReport
 
-The bug reports can be seen by the staff or players that has the permission at any moment, 
-using an intuitive gui or using commands.
+BugReport is a plugin for Minecraft servers. It allows players to easily report every bug they find in a server.
 
-Also, players with permissions can set a priority from one to five to the report, add a label, 
-set the report as solved or unsolved, and see when it has been made. It allows you to find reports 
-easily, by using filters in the main menu.
+All reports can be viewed by staff or players who have the corresponding permission through some intuitives GUIs. Then, the reports can be modified by adding labels, setting a priority or marking as solved or unsolved. It allows you to find reports easier through different filters found in the main menu.
 
-In the report, you can see who created it, when was created, the message and the filters.  
+In each report you will be able to see who created it, when was it created, the message of the report, the priority, the labels and the status (solved/unsolved).
 
-Everything is configurable and translatable. You can check the wiki to learn how to do it: 
+Everything in this plugin is configurable and translatable. You can check the wiki to learn how to do it: 
 https://github.com/MatiRosen/bugreport/wiki
 
 Commands:
