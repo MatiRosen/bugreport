@@ -41,7 +41,7 @@ Working in:
 ![Alt Text](https://imgur.com/AOiXjDm.jpeg)
 
 ![Alt Text](https://imgur.com/DpYNtFC.jpeg)
-### * **[Download](https://www.spigotmc.org/resources/bugreport.93057/)**
-### * **[Wiki](https://github.com/MatiRosen/bugreport/wiki)**
-### * **[Discord](https://discord.gg/cvagVTztZZ) server for help**
-### * **Drawings by [AlanAMB](https://www.instagram.com/alanadmaba/)**
+## * **[Download](https://www.spigotmc.org/resources/bugreport.93057/)**
+## * **[Wiki](https://github.com/MatiRosen/bugreport/wiki)**
+## * **[Discord](https://discord.gg/cvagVTztZZ) server for help**
+## * **Drawings by [AlanAMB](https://www.instagram.com/alanadmaba/)**
