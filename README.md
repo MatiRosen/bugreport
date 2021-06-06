@@ -35,6 +35,10 @@ Working in:
 
 ![Alt Text](https://imgur.com/3CfID48.jpeg)
 
+![Alt Text](https://imgur.com/F8yHdXg.jpeg)
+![Alt Text](https://imgur.com/BBlbxQO.jpeg)
+![Alt Text](https://imgur.com/KH0WA8o.jpeg)
+![Alt Text](https://imgur.com/AOiXjDm.jpeg)
 
 ![Alt Text](https://imgur.com/DpYNtFC.jpeg)
 * **[Download](https://www.spigotmc.org/resources/bugreport.93057/)**
