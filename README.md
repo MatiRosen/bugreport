@@ -1,4 +1,4 @@
-# **_BugReport_**
+![Alt Text](https://i.imgur.com/W5Xo1Gk.jpeg)
 
 It is a Minecraft plugin that allows players to report every bug they find in your server.
 
