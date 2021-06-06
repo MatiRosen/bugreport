@@ -17,6 +17,13 @@ Commands:
 * **/bug help** (Shows all commands in game)
 * **/bug reload** (Reloads the config and language files.)
 
+Permissions:
+* **bug.menu** (Allows players to open main menu and see or edit reports)
+* **bug.get** (Allows players to use the command to get a specific report, and edit it)
+* **bug.help** (Allows players to use help command)
+* **bug.reload** (Allows players to use reload command)
+* **The report command for creating reports is configurable in the config.yml file)
+
 Working in:
 - Remove reports
 - Create a system of player truth. If a player creates good reports, then the priority will be 
