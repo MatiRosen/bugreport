@@ -27,7 +27,6 @@ Everything is configurable and translatable.
 * **The report command for creating reports is configurable in the config.yml file)**
 
 ![Alt Text](https://imgur.com/DRRTgCd.jpeg)
-Working in:
 * **Remove reports**
 * **Max reports per player at the same time (configurable)**
 * **Delay between player reports (configurable)**
