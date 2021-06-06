@@ -43,5 +43,5 @@ Working in:
 ![Alt Text](https://imgur.com/DpYNtFC.jpeg)
 * **[Download](https://www.spigotmc.org/resources/bugreport.93057/)**
 * **[Wiki](https://github.com/MatiRosen/bugreport/wiki)**
-* **[Discord](https://github.com/MatiRosen/bugreport/wiki) server for help**
+* **[Discord](https://discord.gg/cvagVTztZZ) server for help**
 * **Drawings by [AlanAMB](https://www.instagram.com/alanadmaba/)**
