@@ -8,15 +8,14 @@ All reports can be viewed by staff or players who have the corresponding permiss
 
 In each report you will be able to see who created it, when was it created, the message of the report, the priority, the labels and the status (solved/unsolved).
 
-Everything in this plugin is configurable and translatable. You can check the wiki to learn how to do it: 
-https://github.com/MatiRosen/bugreport/wiki
+Everything in this plugin is configurable and translatable. You can check the wiki to learn how to do it and more in this [link](https://github.com/MatiRosen/bugreport/wiki)
 
 Commands:
-/bug report
-/bug menu
-/bug get
-/bug help
-/bug reload
+* **/bug report** (Main command for making reports)
+* **/bug menu** (Opens the main menu where are all reports)
+* **/bug get [number]** (Get a specific report)
+* **/bug help** (Shows all commands in game)
+* **/bug reload** (Reloads the config and language files.)
 
 Working in:
 - Remove reports
