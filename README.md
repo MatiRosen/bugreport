@@ -24,7 +24,7 @@ Everything is configurable and translatable.
 * **bug.get** (Allows players to use the command to get a specific report, and edit it)
 * **bug.help** (Allows players to use help command)
 * **bug.reload** (Allows players to use reload command)
-* **The report command for creating reports is configurable in the config.yml file)
+* **The report command for creating reports is configurable in the config.yml file)**
 
 ![Alt Text](https://imgur.com/DRRTgCd.jpeg)
 Working in:
