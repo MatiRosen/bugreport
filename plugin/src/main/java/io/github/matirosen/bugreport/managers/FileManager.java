@@ -27,12 +27,12 @@ public class FileManager {
 
         configurationMap.clear();
 
-        saveDefaultResources("config.yml");
-        saveDefaultResources("language-en.yml");
-        saveDefaultResources("language-es.yml");
+
+        loadFileConfiguration("language-en.yml");
+        loadFileConfiguration("language-es.yml");
 
         FileConfiguration config = plugin.getConfig();
-        configurationMap.put("config", config);
+        configurationMap.put("config", loadFileConfiguration("config.yml"));
 
         String lang = String.format(LANG_FORMAT, config.getString("language"));
         FileConfiguration langFileConfiguration = loadFileConfiguration(lang);
@@ -50,13 +50,6 @@ public class FileManager {
         configurationMap.put("language", langFileConfiguration);
     }
 
-    private void saveDefaultResources(String name){
-        File file = new File(plugin.getDataFolder(), name);
-        if (!file.exists()){
-            plugin.saveResource(name, true);
-        }
-    }
-
     public FileConfiguration get(String name){
         return configurationMap.get(name);
     }
@@ -64,7 +57,7 @@ public class FileManager {
     public FileConfiguration loadFileConfiguration(String name) {
         File file = new File(plugin.getDataFolder(), name);
         if (!file.exists()) {
-            return null;
+            plugin.saveResource(name, true);
         }
         return YamlConfiguration.loadConfiguration(file);
     }
