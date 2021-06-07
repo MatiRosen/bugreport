@@ -71,8 +71,8 @@ public class LabelsFilterMenu {
                             return true;
                         })
                         .build())
-                .setNextPageItem(Utils.getChangePageItem(plugin, "filters-menu.labels.items.", "next"))
-                .setPreviousPageItem(Utils.getChangePageItem(plugin, "filters-menu.labels.items.", "previous"))
+                .setNextPageItem(page -> Utils.getChangePageItem(plugin, "filters-menu.labels.items.", "next", page))
+                .setPreviousPageItem(page ->Utils.getChangePageItem(plugin, "filters-menu.labels.items.", "previous", page))
                 .build();
     }
 

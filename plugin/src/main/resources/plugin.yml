@@ -1,5 +1,5 @@
 name: bug-report
-version: 0.0.1
+version: 1.0
 main: io.github.matirosen.bugreport.ReportPlugin
 author: MatiRosen
 website: https://github.com/MatiRosen/bugreport

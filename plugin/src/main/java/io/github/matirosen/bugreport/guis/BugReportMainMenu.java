@@ -96,8 +96,8 @@ public class BugReportMainMenu {
                 .addItem(getFilterItem("solved", 46, bugReportList, priorityFilter, labelFilter, solvedFilter))
                 .addItem(getFilterItem("label", 47, bugReportList, priorityFilter, labelFilter, solvedFilter))
                 .addItem(getFilterItem("clear", 53, bugReportList, priorityFilter, labelFilter, solvedFilter))
-                .setNextPageItem(Utils.getChangePageItem(reportPlugin, "main-menu.items.", "next"))
-                .setPreviousPageItem(Utils.getChangePageItem(reportPlugin, "main-menu.items.","previous"))
+                .setNextPageItem(page -> Utils.getChangePageItem(reportPlugin, "main-menu.items.", "next", page))
+                .setPreviousPageItem(page -> Utils.getChangePageItem(reportPlugin, "main-menu.items.","previous", page))
                 .build();
         //TODO filter by player reputation. For example, if a player does a report and a staff set a high priority,
         // then its a good report, so player gets reputation for future reports. (Same with bad reputation)

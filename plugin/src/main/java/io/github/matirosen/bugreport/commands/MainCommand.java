@@ -49,10 +49,10 @@ public class MainCommand implements TabExecutor {
             if (args.length >= 1 && args[0].equalsIgnoreCase("reload")){
                 plugin.reloadConfig();
                 fileManager.loadAllFileConfigurations();
-                System.out.println(Utils.format("&a[Bug-Report] plugin reloaded!"));
+                Bukkit.getLogger().log(Level.INFO, Utils.format("[Bug-Report] &aPlugin reloaded!"));
                 return true;
             }
-            Bukkit.getLogger().log(Level.INFO, Utils.format("&cBug command can only be executed in-game!"));
+            Bukkit.getLogger().log(Level.INFO, Utils.format("[Bug-Report] &cBug command can only be executed in-game!"));
             return false;
         }
         Player player = (Player) sender;
@@ -95,7 +95,7 @@ public class MainCommand implements TabExecutor {
                 ReportPlugin.getMessageHandler().send(player, "no-permission");
                 return false;
             }
-            int id = 0;
+            int id;
             try {
                 id = Integer.parseInt(args[1]);
             } catch (NumberFormatException exception){

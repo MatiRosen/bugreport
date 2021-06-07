@@ -17,9 +17,7 @@ public class FileManager {
 
     private final HashMap<String, FileConfiguration> configurationMap = new HashMap<>();
     private File reportsFolder;
-
     private static final String LANG_FORMAT = "language-%s.yml";
-
 
     public void loadAllFileConfigurations(){
         reportsFolder = new File(plugin.getDataFolder(), "reports");

@@ -68,8 +68,8 @@ public class LabelsMenu {
                             return true;
                         })
                         .build())
-                .setNextPageItem(Utils.getChangePageItem(plugin, "labels-menu.items.", "next"))
-                .setPreviousPageItem(Utils.getChangePageItem(plugin, "labels-menu.items.", "previous"))
+                .setNextPageItem(page -> Utils.getChangePageItem(plugin, "labels-menu.items.", "next", page))
+                .setPreviousPageItem(page -> Utils.getChangePageItem(plugin, "labels-menu.items.", "previous", page))
                 .build();
     }
 

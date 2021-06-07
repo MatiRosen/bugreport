@@ -24,12 +24,14 @@ public class Utils {
         return formatted;
     }
 
-    public static ItemClickable getChangePageItem(ReportPlugin plugin,String menu, String next){
+    public static ItemClickable getChangePageItem(ReportPlugin plugin,String menu, String next, int page){
         FileConfiguration config = plugin.getConfig();
 
         int slot = next.equalsIgnoreCase("next") ? 50 : 48;
         Material material = Material.valueOf(config.getString(menu + next + "-page.material"));
-        String name = Utils.format(config.getString(menu + next + "-page.name"));
+        String name = Utils.format(config.getString(menu + next + "-page.name")
+                .replace("%next_page%", page + "")
+                .replace("%previous_page%", page + ""));
         List<String> lore = Arrays.asList(Utils.format(config.getStringList(menu + next + "-page.lore")));
 
         return ItemClickable.builder(slot)

@@ -100,14 +100,14 @@ main-menu:
         - '&7Click here to remove filters'
     next-page:
       material: ARROW
-      name: '&7Next page'
+      name: '&bGo to page %next_page%'
       lore:
-        - '&bClick here to go to next page'
+        - '&7Click here to go to next page'
     previous-page:
       material: ARROW
-      name: '&7Previous page'
+      name: '&bGo to page %previous_page%'
       lore:
-        - '&bClick here to go to previous page'
+        - '&7Click here to go to previous page'
 report-menu:
   title: '&8&lReport ID: %report_id%'
   items:
