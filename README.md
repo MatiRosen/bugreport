@@ -43,4 +43,4 @@ Everything is configurable and translatable.
 ## * **[Download](https://www.spigotmc.org/resources/bugreport.93057/)**
 ## * **[Wiki](https://github.com/MatiRosen/bugreport/wiki/Wiki)**
 ## * **[Discord](https://discord.gg/cvagVTztZZ) server for help**
-## * **Drawings by [AlanAMB](https://www.instagram.com/alanadmaba/)**
+## * **Drawings by [AlanAMB](https://www.instagram.com/aalanmb/)**
