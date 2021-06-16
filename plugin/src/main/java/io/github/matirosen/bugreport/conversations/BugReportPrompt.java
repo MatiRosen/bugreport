@@ -39,7 +39,6 @@ public class BugReportPrompt extends StringPrompt {
     public Prompt acceptInput(ConversationContext context, String s) {
         Objects.requireNonNull(s);
 
-
         if (s.equalsIgnoreCase(config.getString("cancel-word"))){
             context.getForWhom().sendRawMessage(messageHandler.getMessage("bug-information-cancelled"));
             return Prompt.END_OF_CONVERSATION;

@@ -55,13 +55,13 @@ main-menu:
       glow: false
     label-filter:
       selected:
-        material: WATCH
+        material: COMPASS
         name: '&bAlready using this filter'
         lore:
           - ''
           - '&7You are using this filter'
       unselected:
-        material: WATCH
+        material: COMPASS
         name: '&bOpen label filter menu'
         lore:
           - ''
